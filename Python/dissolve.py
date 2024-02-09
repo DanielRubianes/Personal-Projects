@@ -1,3 +1,4 @@
+# NOTE: ChatGPT wrote the majority of this code
 def dissolve_points(input_dict):
     dissolved_dict = {}
     visited_points = set()
