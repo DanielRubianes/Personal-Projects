@@ -1,0 +1,27 @@
+/*
+ * Daniel Rubianes
+ * Date: 10/15
+ * Hendersonville High School
+ * Bank Account Tester
+ * 
+ * Description: Createsa bank account with an inital 
+ * Difficulties: *
+ * What I learned: *
+*/
+public class danielRubianesMod3BankTester
+{
+    public static void main(String args[])
+    {
+        danielRubianesBankAccount myAccount = new danielRubianesBankAccount(1000,"Sally Jones");
+        myAccount.deposit(505.22);
+        System.out.println(myAccount.balance);
+        myAccount.withdraw(100);
+        System.out.println("The " + myAccount.name + "account balance is, " + myAccount.balance);
+    }
+}
+
+/*
+ * Sample Output: 
+ * 1505.22
+ * 1405.22
+ */

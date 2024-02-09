@@ -1,0 +1,23 @@
+/*
+ * Daniel Rubianes
+ * Date: *
+ * Hendersonville High School
+ * Program Name
+ * 
+ * Description: *
+ * Difficulties: *
+ * What I learned: *
+*/
+public class danielRubianesMod3CircleTester
+{
+    public static void main(String args[])
+    {
+        Circle circle1 = new Circle(5.1);
+        
+    }
+}
+
+/*
+ * Sample Output: 
+ * 
+ */

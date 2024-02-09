@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;danielRubianesM11RomanNumberals&apos; to &apos;danielRubianesM11RomanNumerals&apos;&#x0D;&#x0A;- Original project: &apos;danielRubianesM11RomanNumerals&apos;&#x0D;&#x0A;- Original element: &apos;danielRubianesM11RomanNumberals&apos;&#x0D;&#x0A;- Renamed element: &apos;danielRubianesM11RomanNumerals&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Rename similarly named elements&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;danielRubianesM11RomanNumberals&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/&lt;{danielRubianesM11RomanNumberals.java[danielRubianesM11RomanNumberals" matchStrategy="1" name="danielRubianesM11RomanNumerals" qualified="false" references="true" similarDeclarations="true" stamp="1551455023849" textual="true" version="1.0"/>
+</session>

@@ -1,0 +1,40 @@
+<!--- 10 x 20 -->
+<html>
+<head>
+
+<title>Weather?</title>
+
+<style>
+/*canvas {
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+} */
+html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+</style>
+
+</head>
+
+<body>
+
+<canvas id="page" width="2" height="760" style="border:0px solid #000000;">
+Your browser does not support the HTML5 canvas tag.
+</canvas>
+
+<script type="text/javascript" src="javascript.js"></script>
+
+<script>
+var canvas = document.getElementById("page");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+weather.draw();
+</script>
+
+</body>
+</html>

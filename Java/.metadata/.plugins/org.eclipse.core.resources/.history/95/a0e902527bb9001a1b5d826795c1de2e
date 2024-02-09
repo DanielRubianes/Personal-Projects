@@ -1,0 +1,81 @@
+package zeldaGame;
+
+import java.awt.event.KeyEvent;
+
+public class Character extends Sprite {
+
+    private int dx;
+    private int dy;
+    // 0 = horiz, 1 = vert
+    private int motionType;
+
+    public Character(int x, int y) {
+        super(x, y);
+        
+        initSpaceShip();
+    }
+
+    private void initSpaceShip() {
+        
+        loadImage("src/R-F1.png"); 
+        getImageDimensions();
+    }
+
+    public void move() {
+        x += dx;
+        y += dy;
+    }
+
+    public void keyPressed(KeyEvent e) {
+
+        int key = e.getKeyCode();
+
+        if (key == KeyEvent.VK_SPACE) {}
+
+        if (key == KeyEvent.VK_LEFT) {
+            dx = -2;
+            motionType = 0;
+        }
+
+        if (key == KeyEvent.VK_RIGHT) {
+            dx = 2;
+            motionType = 0;
+        }
+
+        if (key == KeyEvent.VK_UP) {
+            dy = -2;
+            motionType = 1;
+        }
+
+        if (key == KeyEvent.VK_DOWN) {
+            dy = 2;
+            motionType = 1;
+        }
+    }
+
+
+    public void keyReleased(KeyEvent e) {
+
+        int key = e.getKeyCode();
+
+        if (key == KeyEvent.VK_LEFT) {
+            dx = 0;
+            motionType = 1;
+        }
+
+        if (key == KeyEvent.VK_RIGHT) {
+            dx = 0;
+            motionType = 1;
+        }
+
+        if (key == KeyEvent.VK_UP) {
+            dy = 0;
+            motionType = 0;
+        }
+
+        if (key == KeyEvent.VK_DOWN) {
+            dy = 0;
+            motionType = 0;
+        }
+    }
+}

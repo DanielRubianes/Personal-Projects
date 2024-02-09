@@ -1,0 +1,34 @@
+/*
+ * Daniel Rubianes
+ * Date: *
+ * Hendersonville High School
+ * Program Name
+ * 
+ * Description: *
+ * Difficulties: *
+ * What I learned: *
+*/
+// import java.io.* and java.util.*
+import java.io.*;
+import java.util.*;
+public class danielRubianesM11RomanNumerals
+{
+    public static void main(String args[])
+    {
+    	// create the input scanner
+    	Scanner input = new Scanner(System.in);
+    	System.out.print("Enter the number of roman times you would like to enter: ");
+    	int amount = input.nextInt();
+    	danielRubianesRoman[] time = new danielRubianesRoman[amount];
+    	for (int index = 0; index < time.length; index++) {
+    		System.out.print("Enter time #" + (index+1) + " in roman numerals: ");
+    		time[index] = new danielRubianesRoman(input.next());
+    	}
+    	
+    }
+}
+
+/*
+Sample Output: 
+
+ */

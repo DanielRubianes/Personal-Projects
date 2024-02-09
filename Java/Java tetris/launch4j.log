@@ -1,0 +1,14 @@
+
+
+Version:	3.12
+CmdLine:	C:\Users\DandaThePanda\Desktop\Projects\java\Java tetris\tetris.exe --l4j-debug
+WOW64:		yes
+Working dir:	C:\Users\DandaThePanda\Desktop\Projects\java\Java tetris\.
+Java min ver:	
+Java max ver:	
+Bundled JRE:	C:\Program Files (x86)\Java\jre1.8.0_241
+Check launcher:	C:\Program Files (x86)\Java\jre1.8.0_241\bin\javaw.exe (OK)
+Launcher:	C:\Program Files (x86)\Java\jre1.8.0_241\bin\javaw.exe
+Launcher args:	-jar "C:\Users\DandaThePanda\Desktop\Projects\java\Java tetris\tetris.exe"
+Args length:	74/32768 chars
+Exit code:	0

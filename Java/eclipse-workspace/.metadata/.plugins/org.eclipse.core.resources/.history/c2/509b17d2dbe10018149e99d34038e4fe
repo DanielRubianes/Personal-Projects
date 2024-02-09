@@ -1,0 +1,56 @@
+/*
+ * Daniel Rubianes
+ * Date: 11/6/2018
+ * Hendersonville High School
+ * Program Name
+ * 
+ * Description: *
+ * Difficulties: *
+ * What I learned: *
+*/
+// import java.io.* and java.util.*
+import java.io.*;
+import java.util.*;
+public class danielRubianesM6Factorials
+{
+	public static int factorial(int number) {
+		// initialize solution variable
+		int solution = 1;
+		// repeats, subtracting 1 from currNum until currNum is 0
+		for (int currNum = number; currNum > 0; currNum--) {
+			solution *= currNum;
+		}
+		// return the solution
+		return solution;
+	}
+    public static void main(String args[])
+    {
+    	// create the input scanner
+    	Scanner input = new Scanner(System.in);
+    	
+    	// initialize continue bool & answer string
+    	boolean again = true;
+    	String answer = "";
+    	
+    	do {
+    		// ask user for a number
+        	System.out.print("Enter a number: ");
+        	int number = input.nextInt();
+        	
+    		// output the factorial of the number
+    		System.out.println("The value of " + number + "! is " + factorial(number));
+    		
+    		// ask the user if they want to calculate another factorial
+    		System.out.println("Would you like to calculate another number (y/n)? ");
+    		if (input.next().equals("y")) {
+    			System.out.println("test");
+    		}
+    	} while (again);
+    	input.close();
+    }
+}
+
+/*
+ * Sample Output: 
+ * 
+ */

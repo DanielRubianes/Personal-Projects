@@ -1,0 +1,30 @@
+/*
+ * Daniel Rubianes
+ * Date: *
+ * Hendersonville High School
+ * Program Name
+ * 
+ * Description: *
+ * Difficulties: *
+ * What I learned: *
+*/
+public class danielRubianesMod3ResPool
+{
+    public static void main(String args[])
+    {
+        public static final double pi = 3.1415;
+        double poolDiameter = 8.32;
+        double islandDiameter = 1.91;
+        double poolRadius = poolDiameter/2;
+        double islandRadius = islandDiameter/2;
+        double poolArea = (pi*Math.pow(poolRadius,2.0)); // pi*R^2
+        double islandArea = (pi*Math.pow(islandRadius,2.0)); // pi*R^2
+        double tileArea = poolArea - islandArea;
+        System.out.println("A resistance pool with a diameter of 8.32 meters that contains a circular island of 1.91 meters has " + tileArea + " square meters that needs tile.");
+    }
+}
+
+/*
+ * Sample Output: 
+ * 
+ */

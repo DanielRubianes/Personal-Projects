@@ -1,0 +1,11 @@
+#WIN
+{
+	text-shadow: 0px 0px 30px rgba(0, 0, 0, 0.75);
+	font-size: 40px;
+	text-align:center;
+}
+a{color: #000000;}
+a:link {text-decoration:none;}
+a:visited {text-decoration:none;}
+a:hover {text-decoration:none; text-shadow: 0px 0px 60px rgba(0, 0, 0, 0.75);}
+a:active {text-decoration:none; text-shadow: 0px 0px 60px rgba(0, 0, 0, 0.75);}

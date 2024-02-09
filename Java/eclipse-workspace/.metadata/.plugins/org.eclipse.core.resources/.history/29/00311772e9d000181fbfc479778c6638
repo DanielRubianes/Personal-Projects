@@ -1,0 +1,47 @@
+/*
+ * Daniel Rubianes
+ * Date: *
+ * Hendersonville High School
+ * Program Name
+ * 
+ * Description: *
+ * Difficulties: *
+ * What I learned: *
+*/
+
+// import the classes necessary for scanner objects
+import java.io.*;
+import java.util.*;
+
+public class danielRubianesMod4RootsUpdated
+{
+	// Function to solve the quadratic equation and return both values
+		public static String solveEqn(double a, double b, double c) 
+		{
+			// calculate the "plus" form of the equation
+			double plus = (b*(-1) + Math.sqrt(Math.pow(b, 2) - 4*a*c)) / (2*a);
+			// calculate the "minus" form of the equation
+			double minus = (-b - Math.sqrt(Math.pow(b, 2) - 4*a*c))/(2*a);
+			// return both roots
+			return plus + ", " + minus;
+	    }
+	    public static void main(String args[])
+	    {
+	    	System.out.println("Quadratic Equation Solver\n-----------------------");
+	    	// creates the scanner object used to get the a, c, and c variables for the quadratic equation
+	    	Scanner getABC = new Scanner(System.in);
+	    	int a,b,c;
+	    	System.out.println("Enter a value (integer):");
+	    	a = getABC.nextInt();
+	    	System.out.println("Enter b value (integer):");
+	    	b = getABC.nextInt();
+	    	System.out.println("Enter c value (integer):");
+	    	c = getABC.nextInt();
+	    	
+	    }
+}
+
+/*
+ * Sample Output: 
+ * 
+ */

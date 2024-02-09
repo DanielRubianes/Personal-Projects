@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename compilation unit &apos;danielRubianesM8Bank.java&apos; to &apos;danielRubianesM8BankAccount.java&apos;&#x0D;&#x0A;- Original project: &apos;danielRubianesM8Bank&apos;&#x0D;&#x0A;- Original element: &apos;danielRubianesM8Bank.java&apos;&#x0D;&#x0A;- Renamed element: &apos;danielRubianesM8BankAccount.java&apos;" description="Rename compilation unit &apos;danielRubianesM8Bank.java&apos;" flags="2" id="org.eclipse.jdt.ui.rename.compilationunit" input="/&lt;{danielRubianesM8Bank.java" name="danielRubianesM8BankAccount.java" references="false" stamp="1545154847721" version="1.0"/>
+</session>

@@ -1,0 +1,34 @@
+/*
+ * Daniel Rubianes
+ * Date: *
+ * Hendersonville High School
+ * Program Name
+ * 
+ * Description: *
+ * Difficulties: *
+ * What I learned: *
+*/
+
+// import the classes necessary for scanner objects
+import java.io.*;
+import java.util.*;
+
+public class danielRubianesMod4ElectricBill
+{
+    public static void main(String args[])
+    {
+    	// create the scanner
+    	Scanner userInput = new Scanner(System.in);
+    	
+    	System.out.println("Enter KWH used this month:");
+    	int KWHUsed = userInput.nextInt();
+    	System.out.println(" \r\n" + 
+    			"    	        APCS  Electric\r\n" + 
+    			"------------------------------------------------");
+    }
+}
+
+/*
+ * Sample Output: 
+ * 
+ */

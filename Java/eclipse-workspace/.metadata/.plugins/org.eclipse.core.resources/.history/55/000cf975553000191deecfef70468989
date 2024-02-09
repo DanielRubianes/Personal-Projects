@@ -1,0 +1,71 @@
+/*
+ * Daniel Rubianes
+ * Date: 2/12/2019
+ * Hendersonville High School
+ * Prime numbers
+ * 
+ * Description: Finds and prints out all of the prime numbers in the 1-1000 range
+ * Difficulties: Encountered an index out of bounds error when printing out the numbers, but this was solved by breaking the loop when the index runs past the length of the list
+ * What I learned: How to systematically find prime numbers within a range
+*/
+public class danielRubianesM10PrimeNumbers
+{
+    public static void main(String args[])
+    {
+    	// make a list that includes all numbers 2 - 1000
+    	int[] numbers = new int[998];
+        for (int index = 2; index <= 1000; index++) {
+        	numbers[index-2] = index;
+        }
+        // create a boolean array parallel to the numbers array
+        boolean[] isPrime = new boolean[998];
+        // populate the array with "true" values
+        for (int index = 0; index < numbers.length; index++) {isPrime[index] = true;}
+        // find all non prime numbers in the numbers array and set the parallel index in the isPrime array to false & count how many prime numbers
+        int primeCount = 998;
+        for (int index = 0; index < numbers.length/2; index++) {
+        	int currentNumber = numbers[index];
+        	for (int subIndex = index+1; subIndex < numbers.length; subIndex++) {
+        		if (numbers[subIndex]%currentNumber == 0) {
+        			isPrime[subIndex] = false;
+        			primeCount--;
+        		}
+        	}
+        }
+        // create an array to store the prime numbers
+        int[] primeNumbers = new int[1000];
+        int primeIndex = 0;
+        for (int index = 0; index < numbers.length; index++) {
+        	if (isPrime[index]) {
+        		primeNumbers[primeIndex] = numbers[index];
+        		primeIndex++;
+        	}
+        }
+        // print out all of the prime numbers found in 15 number columns
+        for (int index = 0; index < primeNumbers.length; index+=15) {
+        	for (int subIndex = index; subIndex < index+15; subIndex++) {
+        		// ends the loop early if it reaches the end of the list of numbers before the next multiple of 15 index
+        		if (subIndex >= primeNumbers.length) {break;}
+        		System.out.printf("%-4s",primeNumbers[subIndex]);
+        	}
+        	System.out.println();
+        }
+    }
+}
+
+/*
+Sample Output: 
+2   3   5   7   11  13  17  19  23  29  31  37  41  43  47  
+53  59  61  67  71  73  79  83  89  97  101 103 107 109 113 
+127 131 137 139 149 151 157 163 167 173 179 181 191 193 197 
+199 211 223 227 229 233 239 241 251 257 263 269 271 277 281 
+283 293 307 311 313 317 331 337 347 349 353 359 367 373 379 
+383 389 397 401 409 419 421 431 433 439 443 449 457 461 463 
+467 479 487 491 499 503 509 521 523 541 547 557 563 569 571 
+577 587 593 599 601 607 613 617 619 631 641 643 647 653 659 
+661 673 677 683 691 701 709 719 727 733 739 743 751 757 761 
+769 773 787 797 809 811 821 823 827 829 839 853 857 859 863 
+877 881 883 887 907 911 919 929 937 941 947 953 967 971 977 
+983 991 997 
+
+ */

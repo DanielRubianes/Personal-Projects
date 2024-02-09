@@ -1,0 +1,82 @@
+package zeldaGame;
+
+import java.awt.event.KeyEvent;
+
+public class Character extends Sprite {
+
+    private int dx;
+    private int dy;
+    // 0 = horiz, 1 = vert
+    private int motionType;
+    private int frame = 0;
+
+    public Character(int x, int y, String[] spriteList, String[] spriteLinks) {
+        super(x, y, spriteList, spriteLinks);
+        
+        initSprite();
+    }
+
+    private void initSprite() {
+        
+        loadImage(spriteLinks[frame]); 
+        getImageDimensions();
+    }
+
+    public void move() {
+        if (motionType == 0) {x += dx;}
+        else {y += dy;}
+    }
+
+    public void keyPressed(KeyEvent e) {
+
+        int key = e.getKeyCode();
+
+        if (key == KeyEvent.VK_SPACE) {}
+
+        if (key == KeyEvent.VK_LEFT) {
+            dx = -2;
+            motionType = 0;
+        }
+
+        if (key == KeyEvent.VK_RIGHT) {
+            dx = 2;
+            motionType = 0;
+        }
+
+        if (key == KeyEvent.VK_UP) {
+            dy = -2;
+            motionType = 1;
+        }
+
+        if (key == KeyEvent.VK_DOWN) {
+            dy = 2;
+            motionType = 1;
+        }
+    }
+
+
+    public void keyReleased(KeyEvent e) {
+
+        int key = e.getKeyCode();
+
+        if (key == KeyEvent.VK_LEFT) {
+            dx = 0;
+            motionType = 1;
+        }
+
+        if (key == KeyEvent.VK_RIGHT) {
+            dx = 0;
+            motionType = 1;
+        }
+
+        if (key == KeyEvent.VK_UP) {
+            dy = 0;
+            motionType = 0;
+        }
+
+        if (key == KeyEvent.VK_DOWN) {
+            dy = 0;
+            motionType = 0;
+        }
+    }
+}

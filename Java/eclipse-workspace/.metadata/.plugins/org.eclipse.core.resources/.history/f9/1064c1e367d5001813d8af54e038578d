@@ -1,0 +1,26 @@
+/*
+ * Daniel Rubianes
+ * Date: *
+ * Hendersonville High School
+ * Program Name
+ * 
+ * Description: *
+ * Difficulties: *
+ * What I learned: *
+*/
+public class danielRubianesM5Videos
+{
+    public static void main(String args[])
+    {
+        int x = 37;
+        int y = 49;
+        int z = 37;
+        boolean b = (x == y);
+        System.out.println(b);
+    }
+}
+
+/*
+ * Sample Output: 
+ * 
+ */

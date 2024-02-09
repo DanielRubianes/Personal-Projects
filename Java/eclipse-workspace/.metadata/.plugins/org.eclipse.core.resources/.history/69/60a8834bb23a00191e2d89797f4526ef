@@ -1,0 +1,26 @@
+/*
+ * Daniel Rubianes
+ * Date: *
+ * Hendersonville High School
+ * Program Name
+ * 
+ * Description: *
+ * Difficulties: *
+ * What I learned: *
+*/
+// import java.io.* and java.util.*
+import java.io.*;
+import java.util.*;
+public class danielRubianesM11RomanNumberals
+{
+    public static void main(String args[])
+    {
+        String test = "23:55";
+        System.out.println(test.substring(0, test,indexOf(':')));
+    }
+}
+
+/*
+Sample Output: 
+
+ */

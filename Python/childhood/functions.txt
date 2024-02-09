@@ -1,0 +1,11 @@
+def startSong(song):
+    pygame.mixer.music.load(song)
+    pygame.mixer.music.play(-1, 0.0)
+    print('now playing song: ' + song)
+def playSound(sound):
+    play=pygame.mixer.Sound(sound)
+    play.play()
+    
+def stopSong()
+    pygame.mixer.music.stop()
+    print('song stoped!')

@@ -1,0 +1,50 @@
+/*
+ * Daniel Rubianes
+ * Date: *
+ * Hendersonville High School
+ * Program Name
+ * 
+ * Description: *
+ * Difficulties: *
+ * What I learned: *
+*/
+
+// import the classes necessary for scanner objects
+import java.io.*;
+import java.util.*;
+
+public class danielRubianesM5GuessingGame
+{
+    public static void main(String args[])
+    {
+    	// create the scanner
+    	Scanner input = new Scanner(System.in);
+    	
+    	// crate the random number generator
+    	Random rand = new Random();
+    	
+    	//
+    	System.out.println("--- Guessing Game ---"");
+    	
+    	int randomNumber = rand.nextInt(100) + 1;
+    	System.out.println(randomNumber);
+    	
+    	System.out.println("Enter your guess (1-100):");
+    	int guess = input.nextInt();
+    	
+    	if (guess == randomNumber) {
+    		System.out.println("Your guess is correct!");
+    	}
+    	else if (guess > randomNumber) {
+    		System.out.println("Your guess should be lower.");
+    	}
+    	else if (guess < randomNumber) {
+    		System.out.println("Your guess should be higher.");
+    	}
+    }
+}
+
+/*
+ * Sample Output: 
+ * 
+ */

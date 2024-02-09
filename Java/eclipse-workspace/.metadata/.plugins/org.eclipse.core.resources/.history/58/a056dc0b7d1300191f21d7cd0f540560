@@ -1,0 +1,37 @@
+/*
+ * Daniel Rubianes
+ * Date: *
+ * Hendersonville High School
+ * Program Name
+ * 
+ * Description: *
+ * Difficulties: *
+ * What I learned: *
+*/
+// import java.util.*
+import java.util.*;
+public class danielRubianesM9RectangleRunner
+{
+    public static void main(String args[])
+    {
+    	boolean again = true;
+    	while (again) {
+	    	// create the input scanner
+	    	Scanner input = new Scanner(System.in);
+	        System.out.println("Enter the length of the rectangle (in inches)");
+	        int length = input.nextInt();
+	        System.out.println("Enter the width of the rectangle (in inches)");
+	        int width = input.nextInt();
+	        danielRubianesM9Rectangle rectangle = new danielRubianesM9Rectangle(length, width);
+	        System.out.print("The are of the rectegle is " + rectangle.getArea() + " inches. The perimeter is " + rectangle.getPerimeter() + " inches. Would you like to run another? (y/n)");
+	        String answer = input.next();
+	        if (answer.toLowerCase().equals("y")) {again = true'}
+	        else {again = false;}
+    	}
+    }
+}
+
+/*
+Sample Output: 
+
+ */

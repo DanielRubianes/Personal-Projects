@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item key="selection" value="key"/>
+		<item key="wrap" value="true"/>
+		<item key="casesensitive" value="true"/>
+		<item key="wholeword" value="true"/>
+		<item key="incremental" value="false"/>
+		<item key="isRegEx" value="false"/>
+		<list key="findhistory">
+			<item value="keyPress"/>
+			<item value="sprite"/>
+			<item value="SpaceShip"/>
+			<item value="spaceShip"/>
+			<item value="sprites"/>
+			<item value="P1"/>
+			<item value="pressedKey"/>
+			<item value="resize"/>
+			<item value="re"/>
+			<item value="onUp"/>
+			<item value="onup"/>
+			<item value="null"/>
+			<item value="[xIndex][yIndex] != null"/>
+			<item value="[xIndex][yIndex] == null"/>
+			<item value="subIndex"/>
+		</list>
+		<list key="replacehistory">
+			<item value="key"/>
+			<item value="player"/>
+			<item value="Character"/>
+			<item value="Player"/>
+			<item value="spriteList"/>
+			<item value="keyPress"/>
+			<item value="[xIndex][yIndex].getType() == 7"/>
+			<item value="[xIndex][yIndex].getType() != 7"/>
+			<item value="[xIndex][yIndex]."/>
+			<item value="yIndex"/>
+			<item value="xIndex"/>
+			<item value="theo"/>
+			<item value="blocks"/>
+			<item value=""/>
+			<item value="modY"/>
+		</list>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
+		<item key="DIALOG_X_ORIGIN" value="910"/>
+		<item key="DIALOG_Y_ORIGIN" value="315"/>
+		<item key="DIALOG_WIDTH" value="284"/>
+		<item key="DIALOG_HEIGHT" value="391"/>
+		<item key="DIALOG_FONT_NAME" value="1|Segoe UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI"/>
+	</section>
+</section>

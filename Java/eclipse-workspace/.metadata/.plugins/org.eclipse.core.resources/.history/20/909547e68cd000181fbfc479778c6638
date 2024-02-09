@@ -1,0 +1,33 @@
+/*
+ * Daniel Rubianes
+ * Date: *
+ * Hendersonville High School
+ * Program Name
+ * 
+ * Description: *
+ * Difficulties: *
+ * What I learned: *
+*/
+public class danielRubianesBankAccount
+{
+	public double balance;
+	public String name;
+    public danielRubianesBankAccount(double initialBalance, String accountName)
+    {
+    	balance = initialBalance;
+    	name = accountName;
+    }
+    public void deposit(double amount)
+    {
+    	balance += amount;
+    }
+    public void withdraw(double amount)
+    {
+    	balance -= amount;
+    }
+}
+
+/*
+ * Sample Output: 
+ * 
+ */

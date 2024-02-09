@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item value="false" key="isRegEx"/>
+		<item value="dealMy" key="selection"/>
+		<item value="false" key="casesensitive"/>
+		<item value="false" key="incremental"/>
+		<item value="true" key="wrap"/>
+		<item value="false" key="wholeword"/>
+		<list key="findhistory">
+			<item value="dealmy"/>
+			<item value="values[randIndex]"/>
+			<item value="values[index]"/>
+			<item value="calues"/>
+			<item value="kingOfHearts"/>
+			<item value="nineOfClubs"/>
+			<item value="aceOfSpades"/>
+			<item value="scanner"/>
+			<item value="StudentData"/>
+			<item value="1"/>
+			<item value="get"/>
+			<item value="&apos;|"/>
+			<item value="perimeter"/>
+			<item value="out"/>
+			<item value="&quot;&quot;"/>
+		</list>
+		<list key="replacehistory">
+			<item value="cards.get(randIndex)"/>
+			<item value="cards.get(index)"/>
+			<item value="card3"/>
+			<item value="card2"/>
+			<item value="card1"/>
+			<item value="StudentData2"/>
+			<item value="&apos; |"/>
+			<item value="halfPerimeter"/>
+			<item value="&quot;"/>
+			<item value="ChoiceNum"/>
+			<item value="playerChoice"/>
+			<item value="itemCosts"/>
+			<item value="numbers"/>
+			<item value="input"/>
+			<item value="numbers["/>
+		</list>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
+		<item value="284" key="DIALOG_WIDTH"/>
+		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
+		<item value="391" key="DIALOG_HEIGHT"/>
+		<item value="703" key="DIALOG_X_ORIGIN"/>
+		<item value="164" key="DIALOG_Y_ORIGIN"/>
+	</section>
+</section>

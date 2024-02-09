@@ -1,0 +1,2 @@
+ary=['table of contents'.center(75),puts,'Ch. 1:'.ljust(8) + 'getting started' + 'page 1'.rjust(30),'Ch. 2:'.ljust(8) + 'Numbers' + 'page 9'.rjust(38),'Ch. 3:'.ljust(8) + 'Letters' + 'page 13'.rjust(39),]
+puts ary

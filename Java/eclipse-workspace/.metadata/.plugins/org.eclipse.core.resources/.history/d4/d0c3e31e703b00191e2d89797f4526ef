@@ -1,0 +1,25 @@
+
+public class danielRubianesRoman {
+	
+	private String numerals;
+	
+	public danielRubianesRoman(String timeInRoman) {
+		numerals = timeInRoman;
+	}
+	
+	private int parseRoman(String string) {
+		String currentChar;
+		for (int index = 0; index < string.length(); index++) {
+			currentChar = string.substring(index, index+1);
+			if (currentChar.equals("I")) {
+				String nextChar = string.substring(index, index+1);
+			}
+		}
+	}
+	
+	public String convertToDecimalTime {
+        String hours = numerals.substring(0, numerals.indexOf(":"));
+        String mimnutes = numerals.substring(numerals.indexOf(":")+1, numerals.length());
+        
+	}
+}

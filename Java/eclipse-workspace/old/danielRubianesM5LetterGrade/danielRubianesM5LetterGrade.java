@@ -1,0 +1,48 @@
+/*
+ * Daniel Rubianes
+ * Date: 10/21/18
+ * Hendersonville High School
+ * Letter Grade tester
+ * 
+ * Description: Asks the user for their grade and tells them their letter grade (or that they failed).
+ * Difficulties: Turning the assignment in on time.
+ * What I learned: Nothing new.
+*/
+
+// import the classes necessary for scanner objects
+import java.io.*;
+import java.util.*;
+
+public class danielRubianesM5LetterGrade
+{
+    public static void main(String args[])
+    {
+    	// create the scanner
+    	Scanner input = new Scanner(System.in);
+    	
+    	// ask the user for their grade
+    	System.out.println("What is your grade?");
+    	int grade = input.nextInt();
+    	
+    	// tell the user their letter grade, or tell them they failed if they failed
+    	if (grade >= 90) {
+    		System.out.println("You made an A. :)");
+    	}
+    	else if (grade >= 80) {
+    		System.out.println("You made a B. :|");
+    	}
+    	else if (grade >= 70) {
+    		System.out.println("You made a C. :/");
+    	}
+    	else {
+    		System.out.println("You failed. :'(");
+    	}
+    }
+}
+
+/*
+ * Sample Output: 
+ * What is your grade?
+ * [input]73
+ * You made a C. :/
+ */

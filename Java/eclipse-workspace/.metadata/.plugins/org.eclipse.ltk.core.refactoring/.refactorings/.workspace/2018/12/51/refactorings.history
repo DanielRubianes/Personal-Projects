@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Delete 8 resources" deleteContents="false" description="Delete 8 resources" element1="/danielRubianesM6CheatSheet" element2="/danielRubianesM6CollegeInflation" element3="/danielRubianesM6Factorials" element4="/danielRubianesM6Pyramid" element5="/danielRubianesM6RPS" element6="/danielRubianesM6StartEnd" element7="/danielRubianesM7BetterRPS" element8="/danielRubianesM7L1Practice" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="8" stamp="1545005554814"/>
+</session>

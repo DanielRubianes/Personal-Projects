@@ -1,0 +1,78 @@
+
+public class danielRubianesRoman {
+	
+	private String numerals;
+	
+	public danielRubianesRoman(String timeInRoman) {
+		numerals = timeInRoman;
+	}
+	
+	private int parseRoman(String string) {
+		int decimal = 0;
+		String currentChar, nextChar;
+		for (int index = 0; index < string.length(); index++) {
+			currentChar = string.substring(index, index+1);
+			nextChar = string.substring(index+1, index+2);
+			switch (currentChar) {
+	        	case "I":
+	        		if (nextChar.equals("V")) {
+	        			decimal += 4;
+	        			index++;
+	        		}
+	        		else if (nextChar.equals("X")) {
+	        			decimal += 9;
+	        			index++;
+	        		}
+	        		else {
+	        			decimal += 1;
+	        		}
+	        		break;
+	        	case "V":
+	        		decimal += 5;
+	        		break;
+	        	case "X":
+	        		if (nextChar.equals("L")) {
+	        			decimal += 40;
+	        			index++;
+	        		}
+	        		else if (nextChar.equals("C")) {
+	        			decimal += 90;
+	        			index++;
+	        		}
+	        		else {
+	        			decimal += 10;
+	        		}
+	        		break;
+	        	case "L":
+	        		decimal += 50;
+	        		break;
+	        	case "C":
+	        		if (nextChar.equals("D")) {
+	        			decimal += 400;
+	        			index++;
+	        		}
+	        		else if (nextChar.equals("M")) {
+	        			decimal += 900;
+	        			index++;
+	        		}
+	        		else {
+	        			decimal += 100;
+	        		}
+	        		break;
+	        	case "D":
+	        		decimal += 500;
+	        		break;
+	        	case "M":
+	        		decimal += 1000;
+	        		break;
+			}
+		}
+		return 0;
+	}
+	
+	public String convertToDecimalTime() {
+        String hours = numerals.substring(0, numerals.indexOf(":"));
+        String mimnutes = numerals.substring(numerals.indexOf(":")+1, numerals.length());
+        return "";
+	}
+}

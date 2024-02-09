@@ -1,0 +1,42 @@
+<!--- 10 x 20 -->
+<html>
+<head>
+
+<title>JavaScript Tetris</title>
+
+<style>
+canvas {
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+</style>
+
+</head>
+
+<body>
+
+<canvas id="tetris" width="380" height="760" style="border:1px solid #000000;">
+Your browser does not support the HTML5 canvas tag.
+</canvas>
+
+<script type="text/javascript" src="javascript.js"></script>
+
+<script>
+// game loop function
+tetris.run = function() {
+	tetris.update();
+	tetris.draw();
+}
+
+// fumcton to stop game
+tetris.end = function() {clearInterval(tetris.loop);}
+
+// start game
+tetris.loop = setInterval(tetris.run, 1000 / tetris.fps)
+</script>
+
+</body>
+</html>

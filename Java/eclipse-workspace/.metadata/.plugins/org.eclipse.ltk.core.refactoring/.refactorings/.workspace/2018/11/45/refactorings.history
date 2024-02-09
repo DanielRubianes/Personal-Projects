@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Delete 16 resources" deleteContents="false" description="Delete 16 resources" element1="/danielRubianesM5Discount" element10="/danielRubianesM5Switch" element11="/danielRubianesM5Ulam" element12="/danielRubianesM6BankAcount" element13="/danielRubianesM6DoWhileLoop" element14="/danielRubianesM6ForLoop" element15="/danielRubianesM6ItemCost" element16="/danielRubianesMod6WhileLoop" element2="/danielRubianesM5GuessingGame" element3="/danielRubianesM5L7PracticeActivity" element4="/danielRubianesM5L8PracticeActivity" element5="/danielRubianesM5L9PracticeActivity" element6="/danielRubianesM5LinearEquations" element7="/danielRubianesM5Minutes" element8="/danielRubianesM5MusicWebsite" element9="/danielRubianesM5SumAverage" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="16" stamp="1541437358781"/>
+</session>

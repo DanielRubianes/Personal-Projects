@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;danielRubianesTestBook.java&apos; to &apos;danielRubianesTestBook.java&apos;&#x0D;&#x0A;- Original project: &apos;danielRubianesM9L1PracticeActivity2&apos;&#x0D;&#x0A;- Destination element: &apos;danielRubianesTestBook.java&apos;&#x0D;&#x0A;- Original element: &apos;danielRubianesTestBook.java&apos;" description="Copy compilation unit" destination="/&lt;{danielRubianesTestBook.java" element1="/&lt;{danielRubianesTestBook.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1547609070267" units="1" version="1.0"/>
+</session>

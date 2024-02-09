@@ -1,0 +1,36 @@
+/*
+ * Daniel Rubianes
+ * Date: *
+ * Hendersonville High School
+ * Program Name
+ * 
+ * Description: *
+ * Difficulties: *
+ * What I learned: *
+*/
+public class danielRubianesM5Videos
+{
+    public static void main(String args[])
+    {
+        int x = 37;
+        int y = 49;
+        int z = 37;
+        // prints if x is equal to y
+        boolean b = (x == y);
+        System.out.println(b);
+        // prints if x is less tahn or equal to y
+        b = (x <= y);
+        System.out.println(b);
+        // prints true if x is greater than or equal to y and x is equal to z
+        b = ((x >= y) && (x == z));
+        System.out.println(b);
+        // prints true if x is less than y and x is equal to z
+        b = ((x < y) && (x == z));
+        System.out.println(b);
+    }
+}
+
+/*
+ * Sample Output: 
+ * 
+ */

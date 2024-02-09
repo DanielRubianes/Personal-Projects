@@ -1,0 +1,6 @@
+#BlueJ class context
+comment0.target=danielRubianesM2HelloWorld
+comment0.text=\r\n\ Daniel\ Rubianes\r\n\ Date\:\ 9/12/2018\r\n\ Hendersonville\ High\ School\r\n\ "Hello\ World"\ program\r\n\ \r\n\ Description\:\ My\ first\ Java\ program;\ prints\ "Hello\ World"\ in\ the\ console\r\n\ Difficulties\:\ Forgot\ semicolon\ \r\n\ What\ I\ learned\:\ The\ beginnings\ of\ how\ to\ work\ in\ BlueJ,\ as\ well\ as\ some\ basic\ Java\ syntax\r\n
+comment1.params=args
+comment1.target=void\ main(java.lang.String[])
+numComments=2

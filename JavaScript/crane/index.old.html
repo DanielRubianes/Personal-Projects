@@ -1,0 +1,161 @@
+<HTML>
+<title>Crane</title>
+<body onmousemove="getMouseLoc(Y)" onmousedown="mClick()" onmouseup="mRelease()">
+<canvas id="ctx" width="510" height="500" style="border:1px solid #000000;"></canvas>
+<img src="Coin.gif" onclick="coin += 1;">
+<script type="text/javascript">
+var ctx = document.getElementById("ctx").getContext("2d");
+var X = 0;
+var Y = 0;
+var clawURL = 'Claw.png';
+var clawGrabURL = 'ClawGrab.png';
+var clawDown = 0;
+var clawStateChange = 0;
+var clawState = 0;
+var bball = 0;
+var fball = 0;
+var teddy = 0;
+var bbally = 450;
+var fbally = 450;
+var teddyy = 450;
+var bballpos = 0;
+var fballpos = 0;
+var teddypos = 0;
+var curpos = 0;
+var chanceNum = 0.1;
+var coin = 0;
+var prizeDialog = 0;
+var clawimgstate = 0;
+
+var claw = new Image();
+claw.src = clawGrabURL;
+claw.src = clawURL;
+
+var clawBar = new Image();
+clawBar.src = 'ClawBar.png';
+
+var Prize1 = new Image();
+Prize1.src = 'Prize1.png';
+	
+var Prize2 = new Image();
+Prize2.src = 'Prize2.png';
+	
+var Prize3 = new Image();
+Prize3.src = 'Prize3.png';
+	
+var PrizeBox = new Image();
+PrizeBox.src = 'PrizeBox.png';
+	
+function clr() {ctx.clearRect(0,0,510,500);}
+	
+function mClick()
+{
+        if (X+50 <= 510)
+        {
+	clawStateChange = 1;
+	if (clawimgstate == 0) {
+		while(Y < 400) {
+			Y += 10;
+		}
+	}
+	if (clawStateChange == 1 && clawimgstate == 1 && X+50 >= 450 && X+50 <= 500) 
+	{
+		claw.src = clawURL;
+		clawimgstate = 0;
+		clawStateChange = 0;
+		clawState = 0;
+		if (bball == 1 && X+50 >= 450 && X+50 <= 500) {bball = 2; curpos += 1; bballpos = curpos;}
+		if (fball == 1 && X+50 >= 450 && X+50 <= 500) {fball = 2; curpos += 1; fballpos = curpos;}
+		if (teddy == 1 && X+50 >= 450 && X+50 <= 500) {teddy = 2; curpos += 1; teddypos = curpos;}
+		if (bballpos == 1) {bbally = 450;}
+		if (bballpos == 2) {bbally = 400;}
+		if (bballpos == 3) {bbally = 350;}
+		if (fballpos == 1) {fbally = 450;}
+		if (fballpos == 2) {fbally = 400;}
+		if (fballpos == 3) {fbally = 350;}
+		if (teddypos == 1) {teddyy = 450;}
+		if (teddypos == 2) {teddyy = 400;}
+		if (teddypos == 3) {teddyy = 350;}
+	}
+	if (clawStateChange == 1 && clawimgstate == 0)
+	{
+		claw.src = clawGrabURL;
+		clawimgstate = 1;
+		clawStateChange = 0;
+		clawState = 1;
+		prizeDialog = 1;
+		chance = Math.random();
+		MX = X+50
+		if (chance <= chanceNum && X+50 >= 50 && X+50 <= 100 && bball != 2)
+		{
+			bball = 1;
+		}
+		if (chance <= chanceNum && X+50 >= 150 && X+50 <= 200 && teddy != 2)
+		{
+			teddy = 1;
+		}
+		if (chance <= chanceNum && X+50 >= 250 && X+50 <= 300 && fball != 2)
+		{
+			fball = 1;
+		}
+	}
+	getMouseLoc(Y);
+	clawDown = 1;
+        }
+}
+	
+function mRelease()
+{
+        if (X+50 <= 510)
+        {
+        if (clawimgstate == 0)
+        {
+        coin -= 1;
+        }
+	clawDown = 0;
+	Y = 0;
+	getMouseLoc(Y);
+	if (bball == 1 && clawState == 1 && prizeDialog == 1)
+	{
+		alert('You won a basket ball!');
+	}
+	if (teddy == 1 && clawState == 1 && prizeDialog == 1)
+	{
+		alert('You won a teddy bear!');
+	}
+	if (fball == 1 && clawState == 1 && prizeDialog == 1)
+	{
+		alert('You won a football!');
+	}
+	if (fball == 2 && bball == 2 && teddy == 2) {window.location = 'win.html';}
+	prizeDialog = 0;
+        }
+}
+	
+function getMouseLoc(Y)
+{
+        X = window.event.clientX - 55;
+        if (X+50 <= 510)
+        {
+	if (clawDown == 0)
+	{
+		clr();
+		ctx.drawImage(PrizeBox, 500, 350);
+		ctx.drawImage(PrizeBox, 440, 350);
+		if (bball == 0) {ctx.drawImage(Prize1, 50, 450);}
+		if (bball == 1) {ctx.drawImage(Prize1, X+20, Y+40);}
+		if (teddy == 0) {ctx.drawImage(Prize2,  150, 450);}
+		if (teddy == 1) {ctx.drawImage(Prize2, X+20, Y+40);}
+		if (fball == 0) {ctx.drawImage(Prize3, 250, 450);}
+		if (fball == 1) {ctx.drawImage(Prize3, X+20, Y+40);}
+		if (bball == 2) {ctx.drawImage(Prize1, 450, bbally);}
+		if (teddy == 2) {ctx.drawImage(Prize2, 450, teddyy);}
+		if (fball == 2) {ctx.drawImage(Prize3, 450, fbally);}
+		ctx.drawImage(claw, X, Y);
+		if (clawState == 1) {ctx.drawImage(clawBar, X, Y-400);}
+	}
+        }
+}
+</script>
+</body>
+</HTML>

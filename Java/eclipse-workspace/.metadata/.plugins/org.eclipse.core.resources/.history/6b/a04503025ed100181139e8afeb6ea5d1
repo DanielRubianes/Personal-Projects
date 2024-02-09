@@ -1,0 +1,46 @@
+/*
+ * Daniel Rubianes
+ * Date: *
+ * Hendersonville High School
+ * Program Name
+ * 
+ * Description: *
+ * Difficulties: *
+ * What I learned: *
+*/
+
+// import the classes necessary for scanner objects
+import java.io.*;
+import java.util.*;
+
+public class danielRubianesMod4ElectricBill
+{
+    public static void main(String args[])
+    {
+    	// create the scanner
+    	Scanner userInput = new Scanner(System.in);
+    	
+    	// ask user for KWH used and store in KWHUsed
+    	System.out.println("Enter KWH used this month:");
+    	int KWHUsed = userInput.nextInt();
+    	
+    	// program introduction (repeats KWH used)
+    	System.out.println("    	        APCS  Electric\r\n" + "------------------------------------------------");
+    	System.out.println("Kilowatts Used\t"+KWHUsed+" @\t$  0.0425\r\n" + "------------------------------------------------");
+    	// Display the base charge
+    	System.out.print("Base Charge\t\t$  "); System.out.printf("%.2f\n", KWHUsed*.0425);
+    	
+    	System.out.print("Surcharge\t\t$  "); System.out.printf("%.2f\n", (KWHUsed*.0425)*.1);
+    	
+    	System.out.print("City Tax\t\t$  "); System.out.printf("%.2f\n", (KWHUsed*.0425)*.03);
+    	
+    	System.out.println("\t\t\t---------");
+    	
+    	System.out.print("Pay this amount\t$  "); System.out.printf("%.2f\n", (KWHUsed*.0425)*1.13);
+    }
+}
+
+/*
+ * Sample Output: 
+ * 
+ */

@@ -1,0 +1,105 @@
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
+
+import javax.swing.JPanel;
+
+public class Game extends JPanel implements KeyListener {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private Dimension panelSize = new Dimension(1200, 800);
+	
+	private int fps = 30;
+	
+	private int pressedKey = 0;
+	
+	// functions to run for key presses
+	
+	public Game() {
+        addKeyListener(this);
+		// game thread
+		Thread gameThread = new Thread() {
+			public void run() {
+		        // variable to store how many milliseconds between frames
+		        int previousTime = (int) System.currentTimeMillis();
+		        int currentTime;
+		        System.out.println(Game.HEIGHT);
+				while (true) {
+					currentTime = (int) System.currentTimeMillis();
+					
+					// run every frame
+					if ((currentTime - previousTime) >= (1000 / fps)) {
+				        previousTime = (int) System.currentTimeMillis();
+					}
+
+					// Refresh the display
+		            repaint(); // Callback paintComponent()
+				}
+			}
+		};
+	    gameThread.start();  // Callback run()
+	}
+	
+	public void addNotify() {
+        super.addNotify();
+        requestFocus();
+    }
+	
+	
+	
+	// function to redraw the board
+    public void paintComponent(Graphics Draw2D) {
+        super.paintComponent(Draw2D);
+        drawBG(Draw2D);
+    }
+    
+    // keyListener events
+    public void keyPressed(KeyEvent KeyEvent) {
+        pressedKey = KeyEvent.getKeyCode();
+        if ((pressedKey == KeyEvent.VK_UP)||(pressedKey == KeyEvent.VK_W)) {}
+        if ((pressedKey == KeyEvent.VK_LEFT)||(pressedKey == KeyEvent.VK_A)) {}
+        if ((pressedKey == KeyEvent.VK_DOWN)||(pressedKey == KeyEvent.VK_S)) {}
+        if ((pressedKey == KeyEvent.VK_RIGHT)||(pressedKey == KeyEvent.VK_D)) {}
+    }
+    public void keyReleased(KeyEvent KeyEvent) {
+        pressedKey = KeyEvent.getKeyCode();
+        System.out.println(pressedKey + " pressed");
+        if ((pressedKey == KeyEvent.VK_UP)||(pressedKey == KeyEvent.VK_W)) {}
+        if ((pressedKey == KeyEvent.VK_LEFT)||(pressedKey == KeyEvent.VK_A)) {}
+        if ((pressedKey == KeyEvent.VK_DOWN)||(pressedKey == KeyEvent.VK_S)) {}
+        if ((pressedKey == KeyEvent.VK_RIGHT)||(pressedKey == KeyEvent.VK_D)) {}
+        repaint();
+    }
+    public void keyTyped(KeyEvent e) {
+    }
+    
+    // function to draw the white background and grid
+	private void drawBG(Graphics Draw2D) {
+		// create the Graphics2D object
+		Graphics2D draw = (Graphics2D) Draw2D;
+		RenderingHints renderingHints
+        = new RenderingHints(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+		renderingHints.put(RenderingHints.KEY_RENDERING,
+        RenderingHints.VALUE_RENDER_QUALITY);
+		draw.setRenderingHints(renderingHints);
+		
+		// draw background
+		Rectangle2D bg = new Rectangle2D.Double(0, 0, 20, 20);
+        draw.setColor(Color.red);
+        draw.fill(bg);
+    }
+}
+
+

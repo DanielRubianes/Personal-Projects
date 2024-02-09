@@ -1,0 +1,31 @@
+/*
+ * Daniel Rubianes
+ * Date: *
+ * Hendersonville High School
+ * Program Name
+ * 
+ * Description: *
+ * Difficulties: *
+ * What I learned: *
+*/
+
+// import the classes necessary for scanner objects
+import java.io.*;
+import java.util.*;
+
+public class danielRubianesMod4CreditCards
+{
+    public static void main(String args[])
+    {
+    	// create the scanner object
+    	Scanner userInput = new Scanner(System.in);
+    	System.out.println("Enter the credit card number (XX XX XX XX):");
+    	String cardNumber = userInput.next();
+    	System.out.println(cardNumber.substring(3, 2));
+    }
+}
+
+/*
+ * Sample Output: 
+ * 
+ */

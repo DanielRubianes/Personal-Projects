@@ -1,0 +1,12 @@
+
+public class danielRubianesRoman {
+	
+	private String numerals;
+	
+	public danielRubianesRoman(String timeInRoman) {
+		numerals = timeInRoman;
+	}
+	
+	public String convertToDecimalTime {
+	}
+}

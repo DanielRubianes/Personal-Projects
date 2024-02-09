@@ -1,0 +1,49 @@
+1.0.2a
+
+Bug Fixes
+
+- Fixed a bug where you can click widgets behind other ones
+- Fixed a bug where some rendering was a little buggy
+- Fixed a bug where typing in one Entry wrote in a different one
+
+Extension
+
+- Added a Counter Widget (still under development)
+
+Main
+
+- Dragging a Frame type will create transparency
+- Added keyword alpha to Frame types to control dragging transparency
+- Added XFrame which is a closable type of Frame
+- Added get_front_obj function to find the front most Frame type
+
+Example
+
+- A few more objects are placed
+
+Contemplating
+
+- Highlighting, pasting and copying in entries
+- Scrollbars
+- Thinking about dividing extension module into extension and message
+- Adding more documentation
+- Adding more thorough example.py
+
+1.0.1a
+
+Bug Fixes
+
+- Fixed a bug where you can click through frames
+- Fixed a bug where you an click multiple entries
+
+Extension
+
+- Added createMessageBox to extension
+- Added createInputBox to extension
+- Added MessageVariable class to go with Input Box
+
+Contemplating
+
+- Thinking about dividing extension module into extension and message
+- Adding more documentation
+- Adding more thorough example.py

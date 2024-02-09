@@ -1,0 +1,180 @@
+<HTML>
+<title>Crane</title>
+<body onmousemove="getMouseLoc(Y)">
+<canvas id="ctx" width="510" height="500" style="border:1px solid #000000;"></canvas>
+<script type="text/javascript">
+var ctx = document.getElementById("ctx").getContext("2d");
+var X = 0;
+var Y = 0;
+var clawURL = 'Claw.png';
+var clawGrabURL = 'ClawGrab.png';
+var bball = 0;
+var fball = 0;
+var teddy = 0;
+var bbally = 450;
+var fbally = 450;
+var teddyy = 450;
+var currentPos = 0;
+var chanceNum = 1;
+var XPause = 0;
+var IntervalId2 = 0;
+var grabbed = 0;
+
+var claw = new Image();
+claw.src = clawGrabURL;
+
+var clawBar = new Image();
+clawBar.src = 'ClawBar.png';
+
+var Prize1 = new Image();
+Prize1.src = 'Prize1.png';
+	
+var Prize2 = new Image();
+Prize2.src = 'Prize2.png';
+	
+var Prize3 = new Image();
+Prize3.src = 'Prize3.png';
+	
+var PrizeBox = new Image();
+PrizeBox.src = 'PrizeBox.png';
+	
+function clr() {ctx.clearRect(0,0,510,500);}
+
+<!-- Mouse click Detection -->
+var mouseDown = 0;
+document.body.onmousedown = function() { 
+++mouseDown;
+IntervalId = setInterval(clickDownLogic, 1, 'counter');
+clearInterval(IntervalId2);
+}
+document.body.onmouseup = function() {
+--mouseDown;
+IntervalId2 = setInterval(clickUpLogic, 1, 'counter');
+clearInterval(IntervalId);
+}
+<!-- End -->
+
+function clickDownLogic() {
+	if (mouseDown){
+		if (Y < 400 && !grabbed && X <= 403)
+		{
+		
+			XPause = 1;
+			Y++
+			draw(X, Y);
+		
+		}
+		else {
+		
+		// grab
+		
+		if (!grabbed && X <= 403) {grab();}
+		
+		// ungrab
+		
+		if (grabbed && X >= 403) {
+		
+			grabbed = 0; claw.src = clawURL;
+			if (teddy == 1) {teddy = 2; teddyy = 450 - currentPos * 50; currentPos++}
+			if (fball == 1) {fball = 2; fbally = 450 - currentPos * 50; currentPos++}
+			if (bball == 1) {bball = 2; bbally = 450 - currentPos * 50; currentPos++}
+			if (bball == 2 && fball == 2 && teddy == 2) {
+			draw(0, 0);
+			alert('You win!');
+			clearInterval(IntervalId);
+			clearInterval(IntervalId2);
+			document.body.onmouseup = function() {alert('You already won!')}
+			document.body.onmousedown = function() {}
+			}
+		}
+		
+		}
+	}
+}
+
+function clickUpLogic() {
+	if (!mouseDown){
+		if (Y > 0)
+		{
+		
+			XPause = 1;
+			Y--
+			draw(X, Y);
+		
+		}
+		else {XPause = 0;}
+	}
+}
+
+function grab()
+{
+
+	claw.src = clawURL;
+	claw.src = clawGrabURL;
+	getMouseLoc(Y);
+	draw(X, Y);
+	chance = Math.random();
+	MX = X+50
+	if (chance <= chanceNum && X+50 >= 50 && X+50 <= 100 && bball != 2)
+	{
+		bball = 1;
+	}
+	if (chance <= chanceNum && X+50 >= 150 && X+50 <= 200 && teddy != 2)
+	{
+		teddy = 1;
+	}
+	if (chance <= chanceNum && X+50 >= 250 && X+50 <= 300 && fball != 2)
+	{
+		fball = 1;
+	}
+	draw(X, Y);
+	grabbed = 1;
+}
+	
+function getMouseLoc(Y)
+{
+
+    if (!XPause)
+    {
+	
+		X = window.event.clientX - 55;
+		clr();
+		ctx.drawImage(PrizeBox, 500, 350);
+		ctx.drawImage(PrizeBox, 440, 350);
+		if (bball == 0) {ctx.drawImage(Prize1, 50, 450);}
+		if (bball == 1) {ctx.drawImage(Prize1, X+20, Y+40);}
+		if (teddy == 0) {ctx.drawImage(Prize2,  150, 450);}
+		if (teddy == 1) {ctx.drawImage(Prize2, X+20, Y+40);}
+		if (fball == 0) {ctx.drawImage(Prize3, 250, 450);}
+		if (fball == 1) {ctx.drawImage(Prize3, X+20, Y+40);}
+		if (bball == 2) {ctx.drawImage(Prize1, 450, bbally);}
+		if (teddy == 2) {ctx.drawImage(Prize2, 450, teddyy);}
+		if (fball == 2) {ctx.drawImage(Prize3, 450, fbally);}
+		ctx.drawImage(claw, X, Y);
+		ctx.drawImage(clawBar, X, Y-400);
+		
+    }
+
+}
+function draw(X, Y)
+{
+	clr();
+	ctx.drawImage(PrizeBox, 500, 350);
+	ctx.drawImage(PrizeBox, 440, 350);
+	if (bball == 0) {ctx.drawImage(Prize1, 50, 450);}
+	if (bball == 1) {ctx.drawImage(Prize1, X+20, Y+40);}
+	if (teddy == 0) {ctx.drawImage(Prize2,  150, 450);}
+	if (teddy == 1) {ctx.drawImage(Prize2, X+20, Y+40);}
+	if (fball == 0) {ctx.drawImage(Prize3, 250, 450);}
+	if (fball == 1) {ctx.drawImage(Prize3, X+20, Y+40);}
+	if (bball == 2) {ctx.drawImage(Prize1, 450, bbally);}
+	if (teddy == 2) {ctx.drawImage(Prize2, 450, teddyy);}
+	if (fball == 2) {ctx.drawImage(Prize3, 450, fbally);}
+	ctx.drawImage(claw, X, Y);
+	ctx.drawImage(clawBar, X, Y-400);
+}
+
+claw.src = clawURL;
+</script>
+</body>
+</HTML>

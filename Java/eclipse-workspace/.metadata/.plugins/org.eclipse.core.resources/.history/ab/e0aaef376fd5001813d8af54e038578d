@@ -1,0 +1,40 @@
+/*
+ * Daniel Rubianes
+ * Date: 10/21/18
+ * Hendersonville High School
+ * Grade tester
+ * 
+ * Description: Asks the user for their grade and tells them if they passed.
+ * Difficulties: Turning the assignment in on time.
+ * What I learned: Nothing new.
+*/
+
+// import the classes necessary for scanner objects
+import java.io.*;
+import java.util.*;
+
+public class danielRubianesM5Grade
+{
+    public static void main(String args[])
+    {
+    	// create the scanner
+    	Scanner input = new Scanner(System.in);
+    	
+    	// ask the user for their grade
+    	System.out.println("What is your grade?");
+    	int grade = input.nextInt();
+    	
+    	// tell the user if they passed
+    	if (grade >= 70) {
+    		System.out.println("Congratulations, you passed!");
+    	}
+    	else {
+    		System.out.println("Better luck next time!");
+    	}
+    }
+}
+
+/*
+ * Sample Output: 
+ * 
+ */

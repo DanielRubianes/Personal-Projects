@@ -1,0 +1,22 @@
+<HTML>
+<body>
+
+<script>
+function clickEvent() {
+
+if (Math.random() > .5) {
+document.getElementById("ball").src="yes.png";
+console.log("yes");
+}
+else {
+document.getElementById("ball").src="no.png";
+console.log("no");
+}
+setTimeout('document.getElementById("ball").src="top.png";', 2000); 
+}
+</script>
+
+<img src="top.png" id="ball" onclick="clickEvent()">
+
+</body>
+</HTML>
