@@ -16,14 +16,11 @@ gameCanvas.pack(expand = True, fill = BOTH)
 
 # Draw tetrominoes
 
-gameGrid = GameBoard()
+gameGrid = GameGrid()
 
-for block in Tetromino("L", 4, 15).blocks:
-    gameGrid[block.xy] = block
-for block in Tetromino("J", 6, 10).blocks:
-    gameGrid[block.xy] = block
-
-print(gameGrid.getTKShapes(width, height))
+gameGrid.draw(Tetromino("L", 4, 15))
+gameGrid.draw(Tetromino("J", 6, 10))
+gameGrid.activeTetromino = Tetromino("S", 1, 1)
 
 for coordinates, color in gameGrid.getTKShapes(width, height):
     print(coordinates)

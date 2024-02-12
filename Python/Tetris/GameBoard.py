@@ -1,4 +1,4 @@
-
+from tkinter import *
 
 class Coords:
 
@@ -23,7 +23,7 @@ class Coords:
     def __repr__(self):
         return f"Coords({self.x}, {self.y})"
 
-    # Allow defenitions with tuples
+    # Allow declarations with tuples (x, y)
     @classmethod
     def t(cls, xy: tuple[int, int]):
         x, y = xy
@@ -130,20 +130,20 @@ class Tetromino:
         return f"<{self.tetrominoType} tetromino with blocks: {self.blocks}>"
 
 
-class GameBoard:
+class GameGrid:
 
     # List of X coordinates, containing lists of y coordinates
     # Origin is @ top left
+    # 10 x 20 default
     board: list[list[Block]] = [[]]
     xSize = int
     ySize = int
 
-    # 10 x 20 default
-
     activeTetromino: Tetromino = None
 
-    def __init__(self, size: tuple[int, int]=(10, 20)):
-        self.xSize, self.ySize = size
+    def __init__(self, xSize: int=10, ySize: int=20):
+        self.xSize = xSize
+        self.ySize = ySize
         self.board = [
             [None for y in range(self.ySize)]
             for x in range(self.xSize)
@@ -177,20 +177,53 @@ class GameBoard:
                     x = yItem.xy.x
                     y = yItem.xy.y
                     squares.append( ( (x*xWidth, y*yWidth, (x+1)*xWidth, (y+1)*yWidth), yItem.color) )
+        for block in self.activeTetromino.blocks:
+            x = block.xy.x
+            y = block.xy.y
+            squares.append( ( (x*xWidth, y*yWidth, (x+1)*xWidth, (y+1)*yWidth), block.color) )
         return squares
     
+    def draw(self, object):
+        if isinstance(object, Block):
+            self[object.xy] = object
+        elif isinstance(object, Tetromino):
+            for block in object.blocks:
+                self[block.xy] = block
+        else:
+            raise ValueError(f"{repr(object)} not a valid object to draw!")
+
     def update(self, ):
         pass
 
-tetromino = Tetromino("O", 1.5, 7.5)
+class Game:
 
-block = Block("O", Coords(1, 5))
+    """Game class to run alongside main loop"""
 
-board = GameBoard()
+    _grid: GameGrid
+    _frame: Frame
+    _canvas: Canvas
+    _width: int
+    _height: int
 
-board[block.xy] = block
+    def __init__(self, grid: GameGrid, frame, scale: int)
+        self._grid = grid
+        self._frame = frame
+        self._width = grid.xSize * scale
+        self._height = grid.ySize * scale
 
-for subBlock in tetromino.blocks:
-    board[subBlock.xy] = subBlock
+        self._canvas = Canvas(frame,bg='white', width = width, height = height)
 
-print(board)
+    def loop(self):
+        
+        draw = self._canvas
+        draw.delete("all")
+
+        # Draw grid
+        XIncrement = width / 10
+        YIncrement = height / 20
+        gridLines = [
+            (XIncrement*i, 0, XIncrement*i, height) 
+            for i in range(1, 10)] + [
+            (0, YIncrement*i, width, YIncrement*i) 
+            for i in range(1, 20)
+        ]
