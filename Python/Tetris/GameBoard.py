@@ -61,7 +61,6 @@ class Block:
 class Tetromino:
     
     tetrominoType: str = None
-    centerXY: Coords = None
     blocks: list[Block] = []
     
     # (X, Y) values relative to center for each block
@@ -121,13 +120,16 @@ class Tetromino:
 
     def __init__(self, tetrominoType, x, y):
         self.tetrominoType = tetrominoType
-        self.centerXY = Coords(x, y)
-        self.blocks = [Block(tetrominoType, self.centerXY + Coords.t(shift))
+        centerXY = Coords(x, y)
+        self.blocks = [Block(tetrominoType, centerXY + Coords.t(shift))
                        for shift 
                        in self._shapes[tetrominoType]]
 
     def __repr__(self):
         return f"<{self.tetrominoType} tetromino with blocks: {self.blocks}>"
+    
+    def drop():
+        pass
 
 
 class GameGrid:
@@ -192,8 +194,8 @@ class GameGrid:
         else:
             raise ValueError(f"{repr(object)} not a valid object to draw!")
 
-    def update(self, ):
-        pass
+    def update(self):
+        self.activeTetromino.centerXY.x += 1
 
 class Game:
 
@@ -205,25 +207,45 @@ class Game:
     _width: int
     _height: int
 
-    def __init__(self, grid: GameGrid, frame, scale: int)
+    def __init__(self, grid: GameGrid, frame: Frame, scale: int):
+
+        # NOTE: Test
+        grid.activeTetromino = Tetromino("T", 5, 10)
+
         self._grid = grid
         self._frame = frame
         self._width = grid.xSize * scale
         self._height = grid.ySize * scale
 
-        self._canvas = Canvas(frame,bg='white', width = width, height = height)
+        self._canvas = Canvas(frame,bg='white', width = self._width, height = self._height)
 
     def loop(self):
         
         draw = self._canvas
         draw.delete("all")
 
+        grid = self._grid
+        width = self._width
+        height = self._height
+
+        # Draw static blocks
+        for coordinates, color in grid.getTKShapes(width, height):
+            print(coordinates)
+            draw.create_rectangle(coordinates, fill=color, width=0)
+
         # Draw grid
         XIncrement = width / 10
         YIncrement = height / 20
         gridLines = [
-            (XIncrement*i, 0, XIncrement*i, height) 
+            (XIncrement*i, 0, XIncrement*i, height)
             for i in range(1, 10)] + [
-            (0, YIncrement*i, width, YIncrement*i) 
+            (0, YIncrement*i, width, YIncrement*i)
             for i in range(1, 20)
         ]
+
+        for coordinates in gridLines:
+            draw.create_line(coordinates, fill="black", width=2)
+
+        self._grid.activeTetromino.centerXY.x += 1
+
+        draw.pack(expand = True, fill = BOTH)
