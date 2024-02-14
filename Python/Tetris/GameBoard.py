@@ -145,12 +145,12 @@ class Tetromino:
     }
 
     # Possible rotation values
-    # FORMAT: 
+    # FORMAT: (Coords, Bool: flip x and y?)
     _rotation_values = Wrapper([
-        (Coords(1, 1)),
-        Coords(-1, 1),
-        Coords(-1, -1),
-        Coords(1, -1)
+        ( Coords(1, 1), False),
+        ( Coords(-1, 1), True),
+        ( Coords(-1, -1), False),
+        ( Coords(1, -1), True)
     ])
     
     TEST = Wrapper([0, 1, 2, 3])
@@ -166,6 +166,7 @@ class Tetromino:
     
     @property
     def blocks(self):
+        rotation, flip = self._rotation
         print(f"COORDINATES: {self.xy}")
         print(f"ROTATION: {self._rotation}")
         return [Block(self.tetrominoType, self.xy + Coords.t(shift) * self._rotation)
@@ -188,19 +189,20 @@ class GameGrid:
     # List of X coordinates, containing lists of y coordinates
     # Origin is @ top left
     # 10 x 20 default
-    board: list[list[Block]] = [[]]
-    xSize = int
-    ySize = int
+    board: list[list[Block]] = EMPTY
+    xSize: int
+    ySize: int
 
     activeTetromino: Tetromino = None
 
     def __init__(self, xSize: int=10, ySize: int=20):
         self.xSize = xSize
         self.ySize = ySize
-        self.board = [
-            [None for y in range(self.ySize)]
-            for x in range(self.xSize)
-        ]
+        if self.board is EMPTY:
+            self.board = [
+                [None for y in range(self.ySize)]
+                for x in range(self.xSize)
+            ]
     
     def __repr__(self):
         string = "<GameBoard grid object:"
