@@ -1,4 +1,5 @@
 from tkinter import *
+import random
 
 EMPTY = object()
 
@@ -44,14 +45,18 @@ class Coords:
         else:
             raise TypeError(f"Unsupported operand type {str(self)} * {str(other)}")
         
-    def flip(self):
-        x = self.x
-        y = self.y
-        self.x = y
-        self.y = x
+    def flip(self, boolean):
+        if boolean:
+            return Coords(self.y, self.x)
+        else:
+            return Coords(self.x, self.y)
 
     def __repr__(self):
         return f"Coords({self.x}, {self.y})"
+    
+    def __iter__(self):
+        for i  in (self.x, self.y):
+            yield i
 
     # Allow declarations with tuples (x, y)
     @classmethod
@@ -158,14 +163,13 @@ class Tetromino:
         ( Coords(-1, -1), False),
         ( Coords(1, -1), True)
     ])
-    
-    TEST = Wrapper([0, 1, 2, 3])
 
-    def __init__(self, tetrominoType, x, y):
+    def __init__(self, x=5, y=1, tetrominoType=None):
+        if not tetrominoType:
+            tetrominoType = random.choice(list(self._shapes.keys()))
         self.tetrominoType = tetrominoType
         self.xy = Coords(x, y)
         self.rotate()
-        print(f"ROTATION: {self._rotation}")
 
     def __repr__(self):
         return f"<{self.tetrominoType} tetromino with blocks: {self.blocks}>"
@@ -173,18 +177,35 @@ class Tetromino:
     @property
     def blocks(self):
         rotation, flip = self._rotation
-        print(f"COORDINATES: {self.xy}")
-        print(f"ROTATION: {self._rotation}")
-        return [Block(self.tetrominoType, self.xy + Coords.t(shift) * rotation )
-                for shift 
+        blocks =  [Block(self.tetrominoType, self.xy + Coords.t(shift).flip(flip) * rotation)
+                for shift
                 in self._shapes[self.tetrominoType]]
+        return blocks
     
     def rotate(self):
         self._rotation = next(self._rotation_values)
-        print(next(self.TEST))
 
-    def bump(self, newXY):
-        pass
+    # Return false if tetromino touches borders or existing blocks within a given GameGrid object
+    def bumpX(self, grid):
+
+        # Test for borders
+        for block in self.blocks:
+            x, y = block.xy
+            if x >= grid.xSize or x < 0:
+                return True
+        return False
+
+    # Return false if tetromino touches borders or existing blocks within a given GameGrid object
+    def bumpY(self, grid):
+
+        # Test for borders
+        for block in self.blocks:
+            x, y = block.xy
+            if y >= grid.ySize:
+                return True
+            if grid[block.xy]:
+                return True
+        return False
 
     def kick(self, newXY):
         pass
@@ -205,7 +226,7 @@ class GameGrid:
         self.xSize = xSize
         self.ySize = ySize
         if self.board is EMPTY:
-            self.board = [[None]*self.ySize]*self.xSize
+            self.board = [[None]*self.ySize for _ in range(self.xSize)]
     
     def __repr__(self):
         string = "<GameBoard grid object:"
@@ -219,11 +240,12 @@ class GameGrid:
         return string + ">"
     
     def __getitem__(self, xy: Coords):
-        x, y = (xy.x, xy.y)
+        x, y = xy
         return self.board[x][y]
-    def __setitem__(self, xy, newBlock):
-        x, y = (xy.x, xy.y)
-        self.board[x][y] = newBlock
+    def __setitem__(self, xy: Coords, newBlock):
+        x, y = xy
+        if not self.board[x][y]:
+            self.board[x][y] = newBlock
 
     def getTKShapes(self, pixelWidth, pixelHeight):
         squares = []
@@ -232,16 +254,14 @@ class GameGrid:
         for x, xList in enumerate(self.board):
             for y, yItem in enumerate(xList):
                 if yItem:
-                    x = yItem.xy.x
-                    y = yItem.xy.y
+                    x, y = yItem.xy
                     squares.append( ( (x*xWidth, y*yWidth, (x+1)*xWidth, (y+1)*yWidth), yItem.color) )
         for block in self.activeTetromino.blocks:
-            x = block.xy.x
-            y = block.xy.y
+            x, y = block.xy
             squares.append( ( (x*xWidth, y*yWidth, (x+1)*xWidth, (y+1)*yWidth), block.color) )
         return squares
     
-    def add(self, object):
+    def place(self, object):
         if isinstance(object, Block):
             self[object.xy] = object
         elif isinstance(object, Tetromino):
@@ -284,33 +304,68 @@ class Game:
     _frame: Frame
     _canvas: Canvas
     _scale: int
+    speed: int
 
     def __init__(self, frame: Frame, scale: int=40):
 
         self._scale = scale
+        self.speed = 1000
 
         grid = GameGrid()
+        grid.activeTetromino = Tetromino()
+        self._grid = grid
+        self._frame = frame
 
         width = grid.xSize * self._scale
         height = grid.ySize * self._scale
 
         # NOTE: Test
-        grid.activeTetromino = Tetromino("L", 5, 1)
-
-        self._grid = grid
-        self._frame = frame
+        # for i in range(0, 20):
+        #     grid.place(Block("I", Coords(i, i)))
+        # for block in Tetromino(5, 5, "L").blocks:
+        #     grid.place(block)
+        #     print(block)
 
         self._canvas = Canvas(frame,bg='white', width=width, height=height)
 
     def loop(self):
 
-        self._grid.draw(self._canvas, self._scale)
+        grid = self._grid
 
-        self._grid.activeTetromino.xy.y += 1
+        grid.draw(self._canvas, self._scale)
 
-    def key_press(self, event: Event):
+        grid.activeTetromino.xy.y += 1
+
+        if (grid.activeTetromino.bumpY(grid)):
+            grid.activeTetromino.xy.y -= 1
+            grid.place(grid.activeTetromino)
+            grid.activeTetromino = Tetromino()
+
+    def key_down(self, event: Event):
+        
         key = event.keysym
+        grid = self._grid
+        canvas = self._canvas
 
         if key == "Up":
             self._grid.activeTetromino.rotate()
-        self._grid.draw(self._canvas, self._scale)
+            grid.draw(canvas, self._scale)
+        if key == "Left":
+            self._grid.activeTetromino.xy.x -= 1
+            if (grid.activeTetromino.bumpX(grid)):
+                self._grid.activeTetromino.xy.x += 1
+            grid.draw(canvas, self._scale)
+        if key == "Right":
+            grid.activeTetromino.xy.x += 1
+            if (grid.activeTetromino.bumpX(grid)):
+                self._grid.activeTetromino.xy.x -= 1
+            grid.draw(canvas, self._scale)
+        if key == "Down":
+            self.speed = 50
+    
+    def key_up(self, event: Event):
+
+        key = event.keysym
+
+        if key == "Down":
+            self.speed = 1000

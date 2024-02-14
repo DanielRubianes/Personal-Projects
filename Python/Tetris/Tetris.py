@@ -13,13 +13,13 @@ game = Game(frame, 40)
 
 def logic_loop():
     game.loop()
-    window.after(1000, logic_loop)
+    window.after(game.speed, logic_loop)
 
 def key_down(event: Event):
-    game.key_press(event)
+    game.key_down(event)
     
-def key_up(key):
-    pass
+def key_up(event: Event):
+    game.key_up(event)
 
 window.title("Python Tetris")
 
