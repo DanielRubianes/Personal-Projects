@@ -20,8 +20,6 @@ class Wrapper:
             self._iter = iter(self._list)
             return next(self._iter)
         return output
-        
-
 
 class Coords:
 
@@ -89,7 +87,7 @@ class Tetromino:
     tetrominoType: str = None
     blocks: list[Block] = []
     xy: Coords = None
-    _rotation = (0, 0)
+    _rotation: tuple = None
     
     # (X, Y) values relative to center for each block
     # Initial rotation
@@ -147,16 +145,21 @@ class Tetromino:
     }
 
     # Possible rotation values
+    # FORMAT: 
     _rotation_values = Wrapper([
-        Coords(1, 1),
+        (Coords(1, 1)),
         Coords(-1, 1),
         Coords(-1, -1),
-        Coords(1, -1),
+        Coords(1, -1)
     ])
+    
+    TEST = Wrapper([0, 1, 2, 3])
 
     def __init__(self, tetrominoType, x, y):
         self.tetrominoType = tetrominoType
         self.xy = Coords(x, y)
+        self.rotate()
+        print(f"ROTATION: {self._rotation}")
 
     def __repr__(self):
         return f"<{self.tetrominoType} tetromino with blocks: {self.blocks}>"
@@ -164,12 +167,14 @@ class Tetromino:
     @property
     def blocks(self):
         print(f"COORDINATES: {self.xy}")
-        return [Block(self.tetrominoType, self.xy + Coords.t(shift))
+        print(f"ROTATION: {self._rotation}")
+        return [Block(self.tetrominoType, self.xy + Coords.t(shift) * self._rotation)
                 for shift 
                 in self._shapes[self.tetrominoType]]
     
     def rotate(self):
-        self.xy *= next(self._rotation_values)
+        self._rotation = next(self._rotation_values)
+        print(next(self.TEST))
 
     def bump(self, newXY):
         pass
@@ -244,6 +249,8 @@ class GameGrid:
         width = self.xSize * scale
         height = self.ySize * scale
 
+        canvas.delete("all")
+
         # Draw static blocks
         for coordinates, color in self.getTKShapes(width, height):
             canvas.create_rectangle(coordinates, fill=color, width=0)
@@ -283,7 +290,7 @@ class Game:
         height = grid.ySize * self._scale
 
         # NOTE: Test
-        grid.activeTetromino = Tetromino("T", 5, 1)
+        grid.activeTetromino = Tetromino("L", 5, 1)
 
         self._grid = grid
         self._frame = frame
@@ -291,7 +298,6 @@ class Game:
         self._canvas = Canvas(frame,bg='white', width=width, height=height)
 
     def loop(self):
-        self._canvas.delete("all")
 
         self._grid.draw(self._canvas, self._scale)
 
@@ -302,3 +308,4 @@ class Game:
 
         if key == "Up":
             self._grid.activeTetromino.rotate()
+        self._grid.draw(self._canvas, self._scale)
