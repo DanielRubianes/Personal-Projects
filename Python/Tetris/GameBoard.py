@@ -1,7 +1,28 @@
 from tkinter import *
 
+EMPTY = object()
+
 class Wrapper:
-    pass
+
+    _iter: iter
+    _list: list
+    
+    def __init__(self, list: list):
+        self._list = list
+        self._iter = iter(list)
+
+    def __iter__(self):
+        return self
+    
+    def __next__(self):
+        output = next(self._iter, EMPTY)
+        if output is EMPTY:
+            self._iter = iter(self._list)
+            return next(self._iter)
+        return output
+        
+
+
 class Coords:
 
     x: int = None
@@ -126,7 +147,7 @@ class Tetromino:
     }
 
     # Possible rotation values
-    _rotation_values = iter([
+    _rotation_values = Wrapper([
         Coords(1, 1),
         Coords(-1, 1),
         Coords(-1, -1),
