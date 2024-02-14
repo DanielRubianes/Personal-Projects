@@ -43,6 +43,12 @@ class Coords:
             return Coords(self.x * other, self.y * other)
         else:
             raise TypeError(f"Unsupported operand type {str(self)} * {str(other)}")
+        
+    def flip(self):
+        x = self.x
+        y = self.y
+        self.x = y
+        self.y = x
 
     def __repr__(self):
         return f"Coords({self.x}, {self.y})"
@@ -68,7 +74,7 @@ class Block:
         "Z": "#FF0000"
     }
 
-    def __init__(self, blockType, xy):
+    def __init__(self, blockType, xy: Coords):
         if blockType in self._colors.keys():
             self.blockType = blockType
             self.xy = Coords(int(xy.x), int(xy.y))
@@ -169,7 +175,7 @@ class Tetromino:
         rotation, flip = self._rotation
         print(f"COORDINATES: {self.xy}")
         print(f"ROTATION: {self._rotation}")
-        return [Block(self.tetrominoType, self.xy + Coords.t(shift) * self._rotation)
+        return [Block(self.tetrominoType, self.xy + Coords.t(shift) * rotation )
                 for shift 
                 in self._shapes[self.tetrominoType]]
     
@@ -199,10 +205,7 @@ class GameGrid:
         self.xSize = xSize
         self.ySize = ySize
         if self.board is EMPTY:
-            self.board = [
-                [None for y in range(self.ySize)]
-                for x in range(self.xSize)
-            ]
+            self.board = [[None]*self.ySize]*self.xSize
     
     def __repr__(self):
         string = "<GameBoard grid object:"
