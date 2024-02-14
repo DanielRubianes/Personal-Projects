@@ -156,7 +156,6 @@ class Tetromino:
     def kick(self, newXY):
         pass
 
-
 class GameGrid:
 
     # List of X coordinates, containing lists of y coordinates
@@ -242,7 +241,6 @@ class GameGrid:
 
         canvas.pack(expand = True, fill = BOTH)
 
-
 class Game:
 
     """Game class to run alongside main loop"""
@@ -271,13 +269,10 @@ class Game:
 
     def loop(self):
         self._canvas.delete("all")
-
         self._grid.draw(self._canvas, self._scale)
-
         self._grid.activeTetromino.xy.y += 1
 
     def key_press(self, event: Event):
         key = event.keysym
-
         if key == "Up":
             self._grid.activeTetromino.rotate()
