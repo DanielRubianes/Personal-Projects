@@ -1,5 +1,23 @@
 from tkinter import *
 
+class CycleList(list):
+    """List that cycles through elements when indexing"""
+    
+    def __init__(self, *args):
+        super().__init__(*args)
+        self._index = 0
+    
+    def __getitem__(self, index):
+        return super().__getitem__(index % len(self))
+    
+    def __setitem__(self, index, value):
+        super().__setitem__(index % len(self), value)
+    
+    def __next__(self):
+        next_item = self[self._index]
+        self._index += 1
+        return next_item
+
 class Wrapper:
     pass
 class Coords:
@@ -156,12 +174,14 @@ class Tetromino:
     def kick(self, newXY):
         pass
 
+EMPTY_GRID = object()
+
 class GameGrid:
 
     # List of X coordinates, containing lists of y coordinates
     # Origin is @ top left
     # 10 x 20 default
-    board: list[list[Block]] = [[]]
+    board: list[list[Block]] = EMPTY_GRID
     xSize = int
     ySize = int
 
@@ -170,11 +190,9 @@ class GameGrid:
     def __init__(self, xSize: int=10, ySize: int=20):
         self.xSize = xSize
         self.ySize = ySize
-        self.board = [
-            [None for y in range(self.ySize)]
-            for x in range(self.xSize)
-        ]
-    
+        if self.board is EMPTY_GRID:
+            self.board = [[None]*self.ySize]*self.xSize
+                
     def __repr__(self):
         string = "<GameBoard grid object:"
         for x, xList in enumerate(self.board):
@@ -189,7 +207,8 @@ class GameGrid:
     def __getitem__(self, xy: Coords):
         x, y = (xy.x, xy.y)
         return self.board[x][y]
-    def __setitem__(self, xy, newBlock):
+    
+    def __setitem__(self, xy: Coords, newBlock: Block):
         x, y = (xy.x, xy.y)
         self.board[x][y] = newBlock
 
