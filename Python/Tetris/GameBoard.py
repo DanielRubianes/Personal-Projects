@@ -1,5 +1,7 @@
 from tkinter import *
 
+class Wrapper:
+    pass
 class Coords:
 
     x: int = None
@@ -8,17 +10,20 @@ class Coords:
     def __init__(self, x, y):
         self.x = x
         self.y = y
+
     def __add__(self, other):
         if isinstance(other, Coords):
             return Coords(self.x + other.x, self.y + other.y)
         else:
             raise TypeError(f"Unsupported operand type {str(self)} + {str(other)}")
 
-    def __mul__(self, scalar):
-        if isinstance(scalar, (int, float)):
-            return Coords(self.x * scalar, self.y * scalar)
+    def __mul__(self, other):
+        if isinstance(other, Coords):
+            return Coords(self.x * other.x, self.y * other.y)
+        elif isinstance(other, (int, float)):
+            return Coords(self.x * other, self.y * other)
         else:
-            raise TypeError(f"Unsupported operand type {str(self)} * {str(scalar)}")
+            raise TypeError(f"Unsupported operand type {str(self)} * {str(other)}")
 
     def __repr__(self):
         return f"Coords({self.x}, {self.y})"
@@ -62,6 +67,8 @@ class Tetromino:
     
     tetrominoType: str = None
     blocks: list[Block] = []
+    xy: Coords = None
+    _rotation = (0, 0)
     
     # (X, Y) values relative to center for each block
     # Initial rotation
@@ -118,17 +125,35 @@ class Tetromino:
         "Z": _Z
     }
 
+    # Possible rotation values
+    _rotation_values = iter([
+        Coords(1, 1),
+        Coords(-1, 1),
+        Coords(-1, -1),
+        Coords(1, -1),
+    ])
+
     def __init__(self, tetrominoType, x, y):
         self.tetrominoType = tetrominoType
-        centerXY = Coords(x, y)
-        self.blocks = [Block(tetrominoType, centerXY + Coords.t(shift))
-                       for shift 
-                       in self._shapes[tetrominoType]]
+        self.xy = Coords(x, y)
 
     def __repr__(self):
         return f"<{self.tetrominoType} tetromino with blocks: {self.blocks}>"
     
-    def drop():
+    @property
+    def blocks(self):
+        print(f"COORDINATES: {self.xy}")
+        return [Block(self.tetrominoType, self.xy + Coords.t(shift))
+                for shift 
+                in self._shapes[self.tetrominoType]]
+    
+    def rotate(self):
+        self.xy *= next(self._rotation_values)
+
+    def bump(self, newXY):
+        pass
+
+    def kick(self, newXY):
         pass
 
 
@@ -185,7 +210,7 @@ class GameGrid:
             squares.append( ( (x*xWidth, y*yWidth, (x+1)*xWidth, (y+1)*yWidth), block.color) )
         return squares
     
-    def draw(self, object):
+    def add(self, object):
         if isinstance(object, Block):
             self[object.xy] = object
         elif isinstance(object, Tetromino):
@@ -193,45 +218,14 @@ class GameGrid:
                 self[block.xy] = block
         else:
             raise ValueError(f"{repr(object)} not a valid object to draw!")
-
-    def update(self):
-        self.activeTetromino.centerXY.x += 1
-
-class Game:
-
-    """Game class to run alongside main loop"""
-
-    _grid: GameGrid
-    _frame: Frame
-    _canvas: Canvas
-    _width: int
-    _height: int
-
-    def __init__(self, grid: GameGrid, frame: Frame, scale: int):
-
-        # NOTE: Test
-        grid.activeTetromino = Tetromino("T", 5, 10)
-
-        self._grid = grid
-        self._frame = frame
-        self._width = grid.xSize * scale
-        self._height = grid.ySize * scale
-
-        self._canvas = Canvas(frame,bg='white', width = self._width, height = self._height)
-
-    def loop(self):
-        
-        draw = self._canvas
-        draw.delete("all")
-
-        grid = self._grid
-        width = self._width
-        height = self._height
+    
+    def draw(self, canvas: Canvas, scale):
+        width = self.xSize * scale
+        height = self.ySize * scale
 
         # Draw static blocks
-        for coordinates, color in grid.getTKShapes(width, height):
-            print(coordinates)
-            draw.create_rectangle(coordinates, fill=color, width=0)
+        for coordinates, color in self.getTKShapes(width, height):
+            canvas.create_rectangle(coordinates, fill=color, width=0)
 
         # Draw grid
         XIncrement = width / 10
@@ -244,8 +238,46 @@ class Game:
         ]
 
         for coordinates in gridLines:
-            draw.create_line(coordinates, fill="black", width=2)
+            canvas.create_line(coordinates, fill="black", width=2)
 
-        self._grid.activeTetromino.centerXY.x += 1
+        canvas.pack(expand = True, fill = BOTH)
 
-        draw.pack(expand = True, fill = BOTH)
+
+class Game:
+
+    """Game class to run alongside main loop"""
+
+    _grid: GameGrid
+    _frame: Frame
+    _canvas: Canvas
+    _scale: int
+
+    def __init__(self, frame: Frame, scale: int=40):
+
+        self._scale = scale
+
+        grid = GameGrid()
+
+        width = grid.xSize * self._scale
+        height = grid.ySize * self._scale
+
+        # NOTE: Test
+        grid.activeTetromino = Tetromino("T", 5, 1)
+
+        self._grid = grid
+        self._frame = frame
+
+        self._canvas = Canvas(frame,bg='white', width=width, height=height)
+
+    def loop(self):
+        self._canvas.delete("all")
+
+        self._grid.draw(self._canvas, self._scale)
+
+        self._grid.activeTetromino.xy.y += 1
+
+    def key_press(self, event: Event):
+        key = event.keysym
+
+        if key == "Up":
+            self._grid.activeTetromino.rotate()

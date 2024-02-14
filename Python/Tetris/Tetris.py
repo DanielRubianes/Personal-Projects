@@ -1,5 +1,6 @@
 from GameBoard import *
 from tkinter import *
+import tkinter
 
 window = Tk()
 window.geometry()
@@ -8,45 +9,24 @@ frame = Frame(window)
 frame = Frame(window)
 frame.pack()
 
-# width = 400
-# height = 800
-# gameCanvas = Canvas(frame,bg='white', width = width, height = height)
+game = Game(frame, 40)
 
-# gameCanvas.pack(expand = True, fill = BOTH)
+def logic_loop():
+    game.loop()
+    window.after(1000, logic_loop)
 
-# # Draw tetrominoes
-
-# gameGrid = GameGrid()
-
-# gameGrid.draw(Tetromino("L", 4, 15))
-# gameGrid.draw(Tetromino("J", 6, 10))
-# gameGrid.activeTetromino = Tetromino("S", 1, 1)
-
-# for coordinates, color in gameGrid.getTKShapes(width, height):
-#     print(coordinates)
-#     gameCanvas.create_rectangle(coordinates, fill=color, width=0)
-
-# # Draw grid
-# XIncrement = width / 10
-# YIncrement = height / 20
-# gridLines = [
-#     (XIncrement*i, 0, XIncrement*i, height)
-#     for i in range(1, 10)] + [
-#     (0, YIncrement*i, width, YIncrement*i)
-#     for i in range(1, 20)
-# ]
-
-# for coordinates in gridLines:
-#     gameCanvas.create_line(coordinates, fill="black", width=2)
-# gameCanvas.pack(expand = True, fill = BOTH)
-
-gameGrid = GameGrid()
-game = Game(gameGrid, frame, 40)
-
-game.loop()
-game.loop()
-game.loop()
-game.loop()
+def key_down(event: Event):
+    game.key_press(event)
+    
+def key_up(key):
+    pass
 
 window.title("Python Tetris")
+
+# Key press actions
+frame.bind_all("<KeyPress>", key_down)
+frame.bind_all("<KeyRelease>", key_up)
+
+# Start main loop and game logic loop
+logic_loop()
 window.mainloop()
