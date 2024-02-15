@@ -9,7 +9,7 @@ frame = Frame(window)
 frame = Frame(window)
 frame.pack()
 
-game = Game(frame, 40)
+game = Game(frame, 30)
 
 def logic_loop():
     game.loop()

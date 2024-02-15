@@ -164,7 +164,10 @@ class Tetromino:
         ( Coords(1, -1), True)
     ])
 
-    def __init__(self, x=5, y=1, tetrominoType=None):
+    def __init__(self, tetrominoType=None, x=5, y=1):
+        # Shift a half block for shapes that rotate about a grid corner
+        if tetrominoType in ["O", "I"]:
+            x += .5
         if not tetrominoType:
             tetrominoType = random.choice(list(self._shapes.keys()))
         self.tetrominoType = tetrominoType
@@ -178,8 +181,8 @@ class Tetromino:
     def blocks(self):
         rotation, flip = self._rotation
         blocks =  [Block(self.tetrominoType, self.xy + Coords.t(shift).flip(flip) * rotation)
-                for shift
-                in self._shapes[self.tetrominoType]]
+                   for shift
+                   in self._shapes[self.tetrominoType]]
         return blocks
     
     def rotate(self):
@@ -192,6 +195,8 @@ class Tetromino:
         for block in self.blocks:
             x, y = block.xy
             if x >= grid.xSize or x < 0:
+                return True
+            if grid[block.xy]:
                 return True
         return False
 
@@ -226,7 +231,8 @@ class GameGrid:
         self.xSize = xSize
         self.ySize = ySize
         if self.board is EMPTY:
-            self.board = [[None]*self.ySize for _ in range(self.xSize)]
+            #self.board = [[None]*self.ySize for _ in range(self.xSize)]
+            self.board = [[None]*self.xSize for _ in range(self.ySize)]
     
     def __repr__(self):
         string = "<GameBoard grid object:"
@@ -241,26 +247,34 @@ class GameGrid:
     
     def __getitem__(self, xy: Coords):
         x, y = xy
-        return self.board[x][y]
+        return self.board[y][x]
     def __setitem__(self, xy: Coords, newBlock):
         x, y = xy
-        if not self.board[x][y]:
-            self.board[x][y] = newBlock
+        if not self.board[y][x]:
+            self.board[y][x] = newBlock
 
     def getTKShapes(self, pixelWidth, pixelHeight):
         squares = []
         xWidth = pixelWidth / self.xSize
         yWidth = pixelHeight / self.ySize
-        for x, xList in enumerate(self.board):
-            for y, yItem in enumerate(xList):
-                if yItem:
-                    x, y = yItem.xy
-                    squares.append( ( (x*xWidth, y*yWidth, (x+1)*xWidth, (y+1)*yWidth), yItem.color) )
+        for y, yList in enumerate(self.board):
+            for x, xItem in enumerate(yList):
+                if xItem:
+                    x, y = xItem.xy
+                    squares.append( ( (x*xWidth, y*yWidth, (x+1)*xWidth, (y+1)*yWidth), xItem.color) )
         for block in self.activeTetromino.blocks:
             x, y = block.xy
             squares.append( ( (x*xWidth, y*yWidth, (x+1)*xWidth, (y+1)*yWidth), block.color) )
         return squares
-    
+
+    # Clears the line @ the specified y value and drops every row above down to that value
+    def drop(self, yClear):
+        self.board[yClear] = [None]*self.xSize
+        for y in range(yClear, 0):
+            self.board[y-1] = []
+            for block in self.board[y]:
+                self.board[y].append(block)
+
     def place(self, object):
         if isinstance(object, Block):
             self[object.xy] = object
@@ -269,6 +283,11 @@ class GameGrid:
                 self[block.xy] = block
         else:
             raise ValueError(f"{repr(object)} not a valid object to draw!")
+        for y, yList in enumerate(self.board):
+            if None not in yList:
+                self.drop(y)
+                print(self)
+                return
     
     def draw(self, canvas: Canvas, scale):
         width = self.xSize * scale
@@ -312,7 +331,7 @@ class Game:
         self.speed = 1000
 
         grid = GameGrid()
-        grid.activeTetromino = Tetromino()
+        grid.activeTetromino = Tetromino("O")
         self._grid = grid
         self._frame = frame
 
@@ -342,7 +361,7 @@ class Game:
             grid.activeTetromino = Tetromino()
 
     def key_down(self, event: Event):
-        
+
         key = event.keysym
         grid = self._grid
         canvas = self._canvas
