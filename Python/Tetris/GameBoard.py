@@ -267,13 +267,21 @@ class GameGrid:
             squares.append( ( (x*xWidth, y*yWidth, (x+1)*xWidth, (y+1)*yWidth), block.color) )
         return squares
 
+    # TODO: Simplify this by relying more on the array position rather than Block.xy value
+    def updateBlocks(self):
+        for y, yList in enumerate(self.board):
+            for x, xItem in enumerate(self.board):
+                xItem.xy = Coords(x, y)
+
     # Clears the line @ the specified y value and drops every row above down to that value
     def drop(self, yClear):
         self.board[yClear] = [None]*self.xSize
-        for y in range(yClear, 0):
-            self.board[y-1] = []
-            for block in self.board[y]:
-                self.board[y].append(block)
+        for y in range(yClear, 1, -1):
+            self.board[y] = []
+            for block in self.board[y-1]:
+                if block: 
+                    self.board[y].append(block)
+        self.updateBlocks()
 
     def place(self, object):
         if isinstance(object, Block):
