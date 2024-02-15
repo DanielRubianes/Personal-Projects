@@ -154,6 +154,25 @@ class Tetromino:
         "Z": _Z
     }
 
+    # Define SRS Kicks
+    # Key: tuple[int, int]; init rotation, target rotation
+    # Value: list[tuple[x, y]]
+    _defaul_kicks = {
+        (0, 1): [
+            (-1, 0), (-1, -1), (0, 2), (-1, 2)
+        ],
+        (1, 0): [
+            (-1, 0), (-1, -1), (0, 2), (-1, 2)
+        ],
+    }
+    _I_kicks = {
+
+    }
+
+    _O_kicks = [
+        (0, 0)
+    ]
+
     def __init__(self, tetrominoType=None, x=4, y=0):
         
         # Possible rotation values
@@ -164,8 +183,12 @@ class Tetromino:
             ( Coords(-1, -1), False),
             ( Coords(1, -1), True)
         ])
-
         self._rotation = next(self._rotation_values)
+
+        self._rotation_states = Wrapper([
+            0, 1, 2, 3
+        ])
+        self._rotation_state = next(self._rotation_states)
 
         # Shift a half block for shapes that rotate about a grid corner
         if not tetrominoType:
@@ -189,6 +212,8 @@ class Tetromino:
     
     def rotate(self, grid):
         self._rotation = next(self._rotation_values)
+        self._rotation_state = next(self._rotation_states)
+        print(self._rotation_state)
         self._kick(grid)
 
     # Preform an SRS "kick" function after rotating Tetromino
