@@ -270,17 +270,18 @@ class GameGrid:
     # TODO: Simplify this by relying more on the array position rather than Block.xy value
     def updateBlocks(self):
         for y, yList in enumerate(self.board):
-            for x, xItem in enumerate(self.board):
-                xItem.xy = Coords(x, y)
+            for x, xItem in enumerate(yList):
+                if xItem:
+                    xItem.xy = Coords(x, y)
 
     # Clears the line @ the specified y value and drops every row above down to that value
     def drop(self, yClear):
         self.board[yClear] = [None]*self.xSize
         for y in range(yClear, 1, -1):
-            self.board[y] = []
-            for block in self.board[y-1]:
+            self.board[y] = [None]*self.xSize
+            for x, block in enumerate(self.board[y-1]):
                 if block: 
-                    self.board[y].append(block)
+                    self.board[y][x] = block
         self.updateBlocks()
 
     def place(self, object):
@@ -295,7 +296,6 @@ class GameGrid:
             if None not in yList:
                 self.drop(y)
                 print(self)
-                return
     
     def draw(self, canvas: Canvas, scale):
         width = self.xSize * scale
