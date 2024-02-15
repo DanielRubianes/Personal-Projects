@@ -25,3 +25,5 @@ def spades_high(card):
 
 for card in sorted(deck, key=spades_high): 
     print(card)
+
+# commit test
