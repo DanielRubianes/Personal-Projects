@@ -98,7 +98,6 @@ class Tetromino:
     tetrominoType: str = None
     blocks: list[Block] = []
     xy: Coords = None
-    _rotation: tuple = None
     
     # (X, Y) values relative to center for each block
     # Initial rotation
@@ -155,24 +154,27 @@ class Tetromino:
         "Z": _Z
     }
 
-    # Possible rotation values
-    # FORMAT: (Coords, Bool: flip x and y?)
-    _rotation_values = Wrapper([
-        ( Coords(1, 1), False),
-        ( Coords(-1, 1), True),
-        ( Coords(-1, -1), False),
-        ( Coords(1, -1), True)
-    ])
+    def __init__(self, tetrominoType=None, x=4, y=0):
+        
+        # Possible rotation values
+        # FORMAT: (Coords, Bool: flip x and y?)
+        self._rotation_values = Wrapper([
+            ( Coords(1, 1), False),
+            ( Coords(-1, 1), True),
+            ( Coords(-1, -1), False),
+            ( Coords(1, -1), True)
+        ])
 
-    def __init__(self, tetrominoType=None, x=5, y=1):
+        self._rotation = next(self._rotation_values)
+
         # Shift a half block for shapes that rotate about a grid corner
-        if tetrominoType in ["O", "I"]:
-            x += .5
         if not tetrominoType:
             tetrominoType = random.choice(list(self._shapes.keys()))
+        if tetrominoType in ["O", "I"]:
+            x += .5
+            y -= .5
         self.tetrominoType = tetrominoType
         self.xy = Coords(x, y)
-        self.rotate()
 
     def __repr__(self):
         return f"<{self.tetrominoType} tetromino with blocks: {self.blocks}>"
@@ -185,8 +187,16 @@ class Tetromino:
                    in self._shapes[self.tetrominoType]]
         return blocks
     
-    def rotate(self):
+    def rotate(self, grid):
         self._rotation = next(self._rotation_values)
+        self._kick(grid)
+
+    # Preform an SRS "kick" function after rotating Tetromino
+    def _kick(self, grid) -> bool:
+
+
+
+        return False
 
     # Return false if tetromino touches borders or existing blocks within a given GameGrid object
     def bumpX(self, grid):
@@ -211,9 +221,6 @@ class Tetromino:
             if grid[block.xy]:
                 return True
         return False
-
-    def kick(self, newXY):
-        pass
 
 
 class GameGrid:
@@ -339,7 +346,7 @@ class Game:
         self.speed = 1000
 
         grid = GameGrid()
-        grid.activeTetromino = Tetromino("O")
+        grid.activeTetromino = Tetromino("I")
         self._grid = grid
         self._frame = frame
 
@@ -374,25 +381,36 @@ class Game:
         grid = self._grid
         canvas = self._canvas
 
+        # Rotate
         if key == "Up":
-            self._grid.activeTetromino.rotate()
+            self._grid.activeTetromino.rotate(self._grid)
             grid.draw(canvas, self._scale)
+
+        # Move left
         if key == "Left":
-            self._grid.activeTetromino.xy.x -= 1
-            if (grid.activeTetromino.bumpX(grid)):
-                self._grid.activeTetromino.xy.x += 1
+            tetromino = self._grid.activeTetromino
+
+            tetromino.xy.x -= 1
+            if (tetromino.bumpX(grid)):
+                tetromino.xy.x += 1
             grid.draw(canvas, self._scale)
+
+        # Move Right
         if key == "Right":
             grid.activeTetromino.xy.x += 1
             if (grid.activeTetromino.bumpX(grid)):
                 self._grid.activeTetromino.xy.x -= 1
             grid.draw(canvas, self._scale)
+        
+        # Drop faster
         if key == "Down":
-            self.speed = 50
+            # self.speed = 50
+            self.loop()
     
     def key_up(self, event: Event):
 
         key = event.keysym
 
+        # Slow to normal speed
         if key == "Down":
             self.speed = 1000
