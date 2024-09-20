@@ -1,0 +1,55 @@
+﻿<ArcGIS defaultAssembly="Map_Series_Tools.dll" defaultNamespace="Map_Series_Tools" xmlns="http://schemas.esri.com/DADF/Registry" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://schemas.esri.com/DADF/Registry file:///C:/Program%20Files/ArcGIS/Pro/bin/ArcGIS.Desktop.Framework.xsd">
+  <AddInInfo id="{19c3ace9-c8ba-4372-a983-aac0d1c60a35}" version="1.0" desktopVersion="3.3.52636" product="ArcGISPro">
+    <Name>Map_Series_Tools</Name>
+    <Description>Map_Series_Tools description</Description>
+    <Image>Images\AddinDesktop32.png</Image>
+    <Author>drubianes</Author>
+    <Company>Acme</Company>
+    <Date>9/20/2024 3:00:37 PM</Date>
+    <Subject>Framework</Subject>
+    <!-- Note subject can be one or more of these topics:
+                    Content, Framework, Editing, Geodatabase, Geometry, Geoprocessing, Layouts, Map Authoring, Map Exploration -->
+  </AddInInfo>
+  <modules>
+	<!-- Update existing ribbon groups -->
+	<updateModule refID="esri_mapping">
+		<groups>
+			<!-- Map ribbon -> Layer Group -->
+			<updateGroup refID="esri_mapping_layerGroup">
+				<insertButton refID="NextPageButton" size="large" />
+			</updateGroup>
+			<updateGroup refID="esri_mapping_layerGroup">
+			    <insertButton refID="PrevPageButton" size="large" />
+			</updateGroup>
+			<Group id="test_group" caption="Group 1">
+				
+			</Group>
+		</groups>
+	</updateModule>
+    <insertModule id="Map_Series_Tools_Module" className="Module1" autoLoad="false" caption="Module1">
+      <!-- uncomment to have the control hosted on a separate tab-->
+      <tabs>
+        <!--<tab id="Map_Series_Tools_Tab1" caption="New Tab">
+          <group refID="Map_Series_Tools_Group1"/>
+        </tab>-->
+      </tabs>
+      <!--<groups>
+        --><!-- comment this out if you have no controls on the Addin tab to avoid
+              an empty group--><!--
+        <group id="Map_Series_Tools_Group1" caption="Group 1" appearsOnAddInTab="true">
+          --><!-- host controls within groups --><!--
+          <button refID="Map_Series_Tools_NextPageButton" size="large" />
+        </group>
+      </groups>-->
+      <controls>
+        <!-- add your controls here -->
+        <button id="NextPageButton" caption="Next Page" className="NextPageButton" loadOnClick="true" smallImage="GenericButtonBlue16" largeImage="GenericButtonBlue32">
+          <tooltip heading="Map Series Tools">Next map series page<disabledText /></tooltip>
+        </button>
+		<button id="PrevPageButton" caption="Prev Page" className="PrevPageButton" loadOnClick="true" smallImage="GenericButtonBlue16" largeImage="GenericButtonBlue32">
+		  <tooltip heading="Map Series Tools">Previous map series page<disabledText /></tooltip>
+		</button>
+      </controls>
+    </insertModule>
+  </modules>
+</ArcGIS>

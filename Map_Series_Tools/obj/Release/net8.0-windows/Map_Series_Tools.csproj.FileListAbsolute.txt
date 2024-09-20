@@ -1,0 +1,12 @@
+C:\Users\drubianes\source\repos\Map_Series_Tools\bin\Release\net8.0-windows\Map_Series_Tools.deps.json
+C:\Users\drubianes\source\repos\Map_Series_Tools\bin\Release\net8.0-windows\Map_Series_Tools.dll
+C:\Users\drubianes\source\repos\Map_Series_Tools\bin\Release\net8.0-windows\Map_Series_Tools.pdb
+C:\Users\drubianes\source\repos\Map_Series_Tools\obj\Release\net8.0-windows\Map_Series_Tools.csproj.AssemblyReference.cache
+C:\Users\drubianes\source\repos\Map_Series_Tools\obj\Release\net8.0-windows\Map_Series_Tools.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\drubianes\source\repos\Map_Series_Tools\obj\Release\net8.0-windows\Map_Series_Tools.AssemblyInfoInputs.cache
+C:\Users\drubianes\source\repos\Map_Series_Tools\obj\Release\net8.0-windows\Map_Series_Tools.AssemblyInfo.cs
+C:\Users\drubianes\source\repos\Map_Series_Tools\obj\Release\net8.0-windows\Map_Series_Tools.csproj.CoreCompileInputs.cache
+C:\Users\drubianes\source\repos\Map_Series_Tools\obj\Release\net8.0-windows\Map_Series_Tools.dll
+C:\Users\drubianes\source\repos\Map_Series_Tools\obj\Release\net8.0-windows\refint\Map_Series_Tools.dll
+C:\Users\drubianes\source\repos\Map_Series_Tools\obj\Release\net8.0-windows\Map_Series_Tools.pdb
+C:\Users\drubianes\source\repos\Map_Series_Tools\obj\Release\net8.0-windows\ref\Map_Series_Tools.dll
