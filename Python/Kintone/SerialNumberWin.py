@@ -33,6 +33,7 @@ else:
 result = subprocess.run(command, capture_output=True, text=True, shell=True)
 
 # Get last "word" from the command output
+messagebox.showinfo("Info", f"Comand output: {result}")
 serial_number = result.stdout.strip().split()[-1]
 
 print("Serial Number:", serial_number)

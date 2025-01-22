@@ -1,3 +1,35 @@
+import psutil
+import sys
+import subprocess
+
+# Get total memory in bytes and convert to GB
+total_memory_gb = psutil.virtual_memory().total / (1024 ** 3)
+
+# Round to the nearest GB
+rounded_memory_gb = round(total_memory_gb)
+
+print(f"Total RAM: {rounded_memory_gb} GB")
+
+import win32com.client
+
+def get_disk_type():
+    wmi = win32com.client.GetObject("winmgmts:")
+    for disk in wmi.InstancesOf("Win32_DiskDrive"):
+        media_type = disk.MediaType  # E.g., "Fixed hard disk media"
+        if "SSD" in disk.Model or "Solid State" in media_type:
+            print(f"Disk: {disk.Model} - SSD")
+        else:
+            print(f"Disk: {disk.Model} - HDD {media_type}")
+
+get_disk_command = 'powershell -NoProfile -ExecutionPolicy Bypass -Command "& { Get-PhysicalDisk | Select-Object DeviceID, MediaType }"'
+
+# Run system command to get serial number
+result = subprocess.run(get_disk_command, capture_output=True, text=True, shell=True)
+
+# Get last "word" from the command output
+# serial_number = result.stdout.strip().split()[-1]
+
+sys.exit()
 # NOW BROKEN ---FIX WITH NEW RECORD DATA STRUCTURE
 
 import tkinter as tk
@@ -32,11 +64,9 @@ test_app = Kintone_App('https://throughthetrees.kintone.com/k/v1/', api_token=''
 # Drop_down_2: Item Status
 # Text: Asset Tag
 
-shelf_query = 'Text_7 in ("ProBook 650 G2", "ENVY x360 m6", "Elitebook 840 G3", "Elitebook 840 G5", "Elitebook 850 G3", "Elitebook 850 G5", "Elitebook 8470p", "ROG G752V", "Pavillion G6")'
-shelf_query += ' and Drop_down_2 in ("Waiting on Parts", "Waiting on Parts (Ordered)")'
-shelf_query += ' and Bay = ""'
+query = ''
 
-records: list[ dict[str, dict[str, str] ] ] = test_app.get_records([''])
+records: list[ dict[str, dict[str, str] ] ] = test_app.get_records(['Text'], query)
 
 
 # Get records and print info out
@@ -48,15 +78,12 @@ for record in records:
     for field, value in record.items():
         if field not in all_fields:
             all_fields.append(field)
-        value = value['value']
         if field == 'Text':
             asset_tags += value
 
 # print( sorted(records, key=lambda x: int(x)) )
 print(all_fields)
 print(len(records))
-
-messagebox.showinfo("Test Portable App", f"{test_app}\nAll fields: {all_fields}\nRecord Count:{len(records)}")
 
 # Update records
 # devices_app.update_records('Bay', 'Needs Parts Shelf', shelf_query)
