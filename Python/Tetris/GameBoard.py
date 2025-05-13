@@ -3,7 +3,7 @@ import random
 
 EMPTY = object()
 
-class Wrapper:
+class LoopList:
 
     _iter: iter
     _list: list
@@ -177,7 +177,7 @@ class Tetromino:
         
         # Possible rotation values
         # FORMAT: (Coords, Bool: flip x and y?)
-        self._rotation_values = Wrapper([
+        self._rotation_values = LoopList([
             ( Coords(1, 1), False),
             ( Coords(-1, 1), True),
             ( Coords(-1, -1), False),
@@ -185,7 +185,7 @@ class Tetromino:
         ])
         self._rotation = next(self._rotation_values)
 
-        self._rotation_states = Wrapper([
+        self._rotation_states = LoopList([
             0, 1, 2, 3
         ])
         self._rotation_state = next(self._rotation_states)
