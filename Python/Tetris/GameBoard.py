@@ -4,7 +4,6 @@ import random
 EMPTY = object()
 
 class LoopList:
-
     _iter: iter
     _list: list
     
@@ -23,7 +22,6 @@ class LoopList:
         return output
 
 class Coords:
-
     x: int = None
     y: int = None
 
@@ -65,7 +63,6 @@ class Coords:
         return cls(x, y)
 
 class Block:
-
     blockType: str = None
     xy: Coords = None
 
@@ -94,7 +91,6 @@ class Block:
         return self._colors[self.blockType]
 
 class Tetromino:
-    
     tetrominoType: str = None
     blocks: list[Block] = []
     xy: Coords = None
@@ -174,7 +170,6 @@ class Tetromino:
     ]
 
     def __init__(self, tetrominoType=None, x=4, y=0):
-        
         # Possible rotation values
         # FORMAT: (Coords, Bool: flip x and y?)
         self._rotation_values = LoopList([
@@ -225,7 +220,6 @@ class Tetromino:
 
     # Return false if tetromino touches borders or existing blocks within a given GameGrid object
     def bumpX(self, grid):
-
         # Test for borders
         for block in self.blocks:
             x, y = block.xy
@@ -237,7 +231,6 @@ class Tetromino:
 
     # Return false if tetromino touches borders or existing blocks within a given GameGrid object
     def bumpY(self, grid):
-
         # Test for borders
         for block in self.blocks:
             x, y = block.xy
@@ -249,7 +242,6 @@ class Tetromino:
 
 
 class GameGrid:
-
     # List of X coordinates, containing lists of y coordinates
     # Origin is @ top left
     # 10 x 20 default
@@ -356,46 +348,58 @@ class GameGrid:
 
 
 class Game:
-
-    """Game class to run alongside main loop"""
-
+    """Main class to handle Tkinter GUI"""
     _grid: GameGrid
     _frame: Frame
     _canvas: Canvas
     _scale: int
     speed: int
 
-    def __init__(self, frame: Frame, scale: int=40):
-
+    def __init__(self, window: Tk, scale: int=40):
         self._scale = scale
+        self._speed = 1000
         self._active_keys: list[str] = []
-        self.speed = 1000
+        self._job = None
+
+        self._window = window
+
+        frame = Frame(window)
+        frame.pack()
+        self._frame = frame
+
+        frame.bind_all("<KeyPress>", self.key_down)
+        frame.bind_all("<KeyRelease>", self.key_up)
 
         grid = GameGrid()
         grid.activeTetromino = Tetromino()
         self._grid = grid
-        self._frame = frame
 
         width = grid.xSize * self._scale
         height = grid.ySize * self._scale
-
         self._canvas = Canvas(frame,bg='white', width=width, height=height)
 
+        self.loop()
+
+    def start_loop(self):
+        print("start loop")
+        if self._job:
+            self._window.after_cancel(self._job)
+        self._job = self._window.after(self._speed, self.loop)
+
     def loop(self):
-
+        print("loop")
         grid = self._grid
-
         grid.draw(self._canvas, self._scale)
-
         grid.activeTetromino.xy.y += 1
 
         if (grid.activeTetromino.bumpY(grid)):
             grid.activeTetromino.xy.y -= 1
             grid.place(grid.activeTetromino)
             grid.activeTetromino = Tetromino()
+        
+        self.start_loop()
 
     def key_down(self, event: Event):
-
         key = event.keysym
 
         if key in self._active_keys:
@@ -429,11 +433,11 @@ class Game:
         
         # Drop faster
         if key == "Down":
-            # self.speed = 50
-            self.loop()
+            self._speed = 50
+            self.start_loop()
+            # self.loop()
     
     def key_up(self, event: Event):
-
         key = event.keysym
 
         if key in self._active_keys:
@@ -443,4 +447,5 @@ class Game:
 
         # Slow to normal speed
         if key == "Down":
-            self.speed = 1000
+            self._speed = 1000
+            self.start_loop()
