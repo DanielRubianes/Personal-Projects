@@ -371,7 +371,7 @@ class Game:
         self.speed = 1000
 
         grid = GameGrid()
-        grid.activeTetromino = Tetromino("I")
+        grid.activeTetromino = Tetromino()
         self._grid = grid
         self._frame = frame
 
