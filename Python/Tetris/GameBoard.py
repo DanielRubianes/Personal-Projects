@@ -2,8 +2,8 @@ from tkinter import *
 import random
 
 EMPTY = object()
-
 class LoopList:
+    """Iterable list that will countinuously iterate, skiping to the first item after the last"""
     _iter: iter
     _list: list
     
@@ -95,59 +95,57 @@ class Tetromino:
     blocks: list[Block] = []
     xy: Coords = None
     
-    # (X, Y) values relative to center for each block
-    # Initial rotation
-    _I = [
-        (-1.5, -.5),
-        (-.5, -.5),
-        (.5, -.5),
-        (1.5, -.5)
-    ]
-    _J = [
-        (-1, -1),
-        (-1, -0),
-        (0, -0),
-        (1, -0)
-    ]
-    _L = [
-        (1, -1),
-        (1, -0),
-        (0, -0),
-        (-1, -0)
-    ]
-    _O = [
-        (-.5, .5),
-        (-.5, -.5),
-        (.5, -.5),
-        (.5, .5)
-    ]
-    _S = [
-        (-1, -0),
-        (0, -0),
-        (0, -1),
-        (1, -1)
-    ]
-    _T = [
-        (-1, -0),
-        (0, -0),
-        (1, -0),
-        (0, -1)
-    ]
-    _Z = [
-        (-1, -1),
-        (0, -1),
-        (0, -0),
-        (1, -0)
-    ]
-
-    _shapes = {
-        "I": _I,
-        "J": _J,
-        "L": _L,
-        "O": _O,
-        "S": _S,
-        "T": _T,
-        "Z": _Z
+    # (X, Y) values relative to center for each block (O & I blocks have half step centers at the interesection of four blocks)
+    _shapes: dict[ str, list[ tuple[float, float] ] ] = {
+        "I":
+        [
+            (-1.5, -.5),
+            (-.5, -.5),
+            (.5, -.5),
+            (1.5, -.5)
+        ],
+        "J":
+        [
+            (-1, -1),
+            (-1, -0),
+            (0, -0),
+            (1, -0)
+        ],
+        "L":
+        [
+            (1, -1),
+            (1, -0),
+            (0, -0),
+            (-1, -0)
+        ],
+        "O":
+        [
+            (-.5, .5),
+            (-.5, -.5),
+            (.5, -.5),
+            (.5, .5)
+        ],
+        "S":
+        [
+            (-1, -0),
+            (0, -0),
+            (0, -1),
+            (1, -1)
+        ],
+        "T":
+        [
+            (-1, -0),
+            (0, -0),
+            (1, -0),
+            (0, -1)
+        ],
+        "Z": 
+        [
+            (-1, -1),
+            (0, -1),
+            (0, -0),
+            (1, -0)
+        ]
     }
 
     # Define SRS Kicks
