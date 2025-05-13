@@ -139,13 +139,23 @@ class Tetromino:
             (1, -0),
             (0, -1)
         ],
-        "Z": 
+        "Z":
         [
             (-1, -1),
             (0, -1),
             (0, -0),
             (1, -0)
         ]
+    }
+
+    _start_coordinates: dict[str, tuple] = {
+        "I": Coords(4.5, 0.5),
+        "J": Coords(4, 0),
+        "L": Coords(4, 0),
+        "O": Coords(4.5, 0.5),
+        "S": Coords(4, 0),
+        "T": Coords(4, 0),
+        "Z": Coords(4, 0)
     }
 
     # Define SRS Kicks
@@ -167,7 +177,7 @@ class Tetromino:
         (0, 0)
     ]
 
-    def __init__(self, tetrominoType=None, x=4, y=0):
+    def __init__(self, tetrominoType=None):
         # Possible rotation values
         # FORMAT: (Coords, Bool: flip x and y?)
         self._rotation_values = LoopList([
@@ -186,11 +196,9 @@ class Tetromino:
         # Shift a half block for shapes that rotate about a grid corner
         if not tetrominoType:
             tetrominoType = random.choice(list(self._shapes.keys()))
-        if tetrominoType in ["O", "I"]:
-            x += .5
-            y -= .5
+        
         self.tetrominoType = tetrominoType
-        self.xy = Coords(x, y)
+        self.xy = self._start_coordinates[self.tetrominoType]
 
     def __repr__(self):
         return f"<{self.tetrominoType} tetromino with blocks: {self.blocks}>"
