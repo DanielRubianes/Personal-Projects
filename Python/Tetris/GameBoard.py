@@ -368,6 +368,7 @@ class Game:
     def __init__(self, frame: Frame, scale: int=40):
 
         self._scale = scale
+        self._active_keys: list[str] = []
         self.speed = 1000
 
         grid = GameGrid()
@@ -377,13 +378,6 @@ class Game:
 
         width = grid.xSize * self._scale
         height = grid.ySize * self._scale
-
-        # NOTE: Test
-        # for i in range(0, 20):
-        #     grid.place(Block("I", Coords(i, i)))
-        # for block in Tetromino(5, 5, "L").blocks:
-        #     grid.place(block)
-        #     print(block)
 
         self._canvas = Canvas(frame,bg='white', width=width, height=height)
 
@@ -403,6 +397,12 @@ class Game:
     def key_down(self, event: Event):
 
         key = event.keysym
+
+        if key in self._active_keys:
+            return
+        
+        self._active_keys.append(key)
+
         grid = self._grid
         canvas = self._canvas
 
@@ -435,6 +435,11 @@ class Game:
     def key_up(self, event: Event):
 
         key = event.keysym
+
+        if key in self._active_keys:
+            self._active_keys.remove(key)
+        else:
+            return
 
         # Slow to normal speed
         if key == "Down":
