@@ -246,7 +246,6 @@ class Tetromino:
                 return True
         return False
 
-
 class GameGrid:
     # List of X coordinates, containing lists of y coordinates
     # Origin is @ top left
