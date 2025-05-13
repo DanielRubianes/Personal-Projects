@@ -204,8 +204,8 @@ class Tetromino:
     
     @property
     def blocks(self):
-        rotation, flip = self._rotation
-        blocks =  [Block(self.tetrominoType, self.xy + Coords.t(shift).flip(flip) * rotation)
+        rotation, flip_state = self._rotation
+        blocks =  [Block(self.tetrominoType, self.xy + Coords.t(shift).flip(flip_state) * rotation)
                    for shift
                    in self._shapes[self.tetrominoType]]
         return blocks
