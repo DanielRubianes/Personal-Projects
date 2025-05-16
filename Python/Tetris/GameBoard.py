@@ -216,7 +216,6 @@ class Tetromino:
     def rotate(self, grid):
         self._rotation = next(self._rotation_values)
         self._rotation_state = next(self._rotation_states)
-        print(self._rotation_state)
         self._kick(grid)
 
     # Preform an SRS "kick" function after rotating Tetromino
@@ -315,7 +314,7 @@ class GameGrid:
                     self.board[y][x] = block
         self.updateBlocks()
 
-    def place(self, object):
+    def place(self, object: Block | Tetromino):
         if isinstance(object, Block):
             self[object.xy] = object
         elif isinstance(object, Tetromino):
@@ -326,7 +325,7 @@ class GameGrid:
         for y, yList in enumerate(self.board):
             if None not in yList:
                 self.drop(y)
-                print(self)
+        print(self)
     
     def draw(self, canvas: Canvas, scale):
         width = self.xSize * scale
@@ -388,13 +387,11 @@ class Game:
         self.loop()
 
     def start_loop(self):
-        print("start loop")
         if self._job:
             self._window.after_cancel(self._job)
         self._job = self._window.after(self._speed, self.loop)
 
     def loop(self):
-        print("loop")
         grid = self._grid
         grid.draw(self._canvas, self._scale)
         grid.activeTetromino.xy.y += 1
