@@ -2,8 +2,10 @@ import tkinter as tk
 
 from typing import Optional
 
-from itertools import cycle
 import random
+import time
+import copy
+from itertools import cycle
 
 class Coords:
     x: int
@@ -28,7 +30,7 @@ class Coords:
             raise TypeError(f"Unsupported operand type {str(self)} * {str(other)}")
         
     def __eq__(self, other) -> bool:
-        if (self.x == other.x and self.y == other.y):
+        if self.x == other.x and self.y == other.y:
             return True
         else:
             return False
@@ -214,7 +216,7 @@ class Tetromino:
 
         return False
 
-    # Return false if tetromino touches borders or existing blocks within a given GameGrid object
+    # Returns true if tetromino overlaps existing block or is out of x bounds
     def bumpX(self, grid):
         # Test for borders
         for block in self.blocks:
@@ -225,7 +227,7 @@ class Tetromino:
                 return True
         return False
 
-    # Return false if tetromino touches borders or existing blocks within a given GameGrid object
+    # Returns true if tetromino overlaps existing block or is out of y bounds
     def bumpY(self, grid):
         # Test for borders
         for block in self.blocks:
@@ -250,7 +252,6 @@ class GameGrid:
         self.xSize = xSize
         self.ySize = ySize
         if not self.board:
-            #self.board = [[None]*self.ySize for _ in range(self.xSize)]
             self.board = [[None]*self.xSize for _ in range(self.ySize)]
     
     def __repr__(self):
@@ -261,7 +262,7 @@ class GameGrid:
                 if yItem:
                     string += f"{yItem.blockType}"
                 else:
-                    string += "N"
+                    string += " "
         return string + ">"
     
     def __getitem__(self, xy: Coords):
@@ -297,7 +298,7 @@ class GameGrid:
         for y, yList in enumerate(self.board):
             for x, xItem in enumerate(yList):
                 if xItem:
-                    if (xItem.xy != Coords(x, y)):
+                    if xItem.xy != Coords(x, y):
                         print(f'Block at board index {x}, {y} has coordinate value {xItem.xy}!')
 
     # Clears the line @ the specified y value and drops every row above down to that value
@@ -310,18 +311,19 @@ class GameGrid:
                     self.board[y][x] = block
         self.updateBlocks()
 
-    def place(self, object: Block | Tetromino):
-        if isinstance(object, Block):
-            self[object.xy] = object
-        elif isinstance(object, Tetromino):
-            for block in object.blocks:
+    def place(self, source: Block | Tetromino):
+        if isinstance(source, Block):
+            self[source.xy] = source
+        elif isinstance(source, Tetromino):
+            print(f'{ [repr(i) for i in source.blocks] }')
+            for block in source.blocks:
                 self[block.xy] = block
         else:
-            raise ValueError(f"{repr(object)} not a valid object to draw!")
+            raise ValueError(f"{repr(source)} not a valid object to draw!")
         for y, yList in enumerate(self.board):
             if None not in yList:
                 self.drop(y)
-        print(self)
+        # print(self)
         self.validate()
     
     def draw(self, canvas: tk.Canvas, scale):
@@ -352,15 +354,24 @@ class GameGrid:
 
 class Game:
     """Main class to handle Tkinter GUI"""
-    _grid: GameGrid
-    _frame: tk.Frame
-    _canvas: tk.Canvas
     _scale: int
-    speed: int
+    
+    _speed: float
+    _prev_time: float
+
+    _active_keys: list[str]
+
+    _window: tk.Tk
+    _frame: tk.Frame
+    _grid: GameGrid
+    _canvas: tk.Canvas
 
     def __init__(self, window: tk.Tk, scale: int=40):
         self._scale = scale
-        self._speed = 1000
+        
+        self._speed = 1
+        self._prev_time = time.perf_counter()
+
         self._active_keys: list[str] = []
 
         self._window = window
@@ -373,20 +384,32 @@ class Game:
         frame.bind_all("<KeyRelease>", self.key_up)
 
         grid = GameGrid()
-        grid.activeTetromino = Tetromino()
+        grid.activeTetromino = Tetromino("I")
         self._grid = grid
 
         width = grid.xSize * self._scale
         height = grid.ySize * self._scale
         self._canvas = tk.Canvas(frame,bg='white', width=width, height=height)
 
+        # def game_loop():
+        #     self.loop()
+        #     window.after(self._speed, game_loop)
+        
         self.loop()
+        self.game_loop()
+
+    def game_loop(self):
+
+        if time.perf_counter() > (self._prev_time + self._speed):
+            self._prev_time = time.perf_counter()
+            self.loop()
+        self._window.after(1, self.game_loop)
 
     def loop(self):
         grid = self._grid
         grid.activeTetromino.xy.y += 1
 
-        if (grid.activeTetromino.bumpY(grid)):
+        if grid.activeTetromino.bumpY(grid):
             grid.activeTetromino.xy.y -= 1
             grid.place(grid.activeTetromino)
             grid.activeTetromino = Tetromino()
@@ -414,20 +437,20 @@ class Game:
             tetromino = self._grid.activeTetromino
 
             tetromino.xy.x -= 1
-            if (tetromino.bumpX(grid)):
+            if tetromino.bumpX(grid):
                 tetromino.xy.x += 1
             grid.draw(canvas, self._scale)
 
         # Move Right
         if key == "Right":
             grid.activeTetromino.xy.x += 1
-            if (grid.activeTetromino.bumpX(grid)):
+            if grid.activeTetromino.bumpX(grid):
                 self._grid.activeTetromino.xy.x -= 1
             grid.draw(canvas, self._scale)
         
         # Drop faster
         if key == "Down":
-            self.loop()
+            self._speed = .01
     
     def key_up(self, event: tk.Event):
         key = event.keysym
@@ -438,6 +461,5 @@ class Game:
             return
 
         # Slow to normal speed
-        # if key == "Down":
-        #     self._speed = 1000
-        #     self.start_loop()
+        if key == "Down":
+            self._speed = 1
