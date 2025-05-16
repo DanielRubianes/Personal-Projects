@@ -91,7 +91,7 @@ class Tetromino:
     tetrominoType: str
     xy: Coords
 
-    _rotation: tuple[Coords, bool]
+    _rotation: tuple[int, int, bool]
     
     # (X, Y) values relative to center for each block (O & I blocks have half step centers at the interesection of four blocks)
     _shapes: dict[ str, list[ tuple[float, float] ] ] = {
@@ -146,14 +146,14 @@ class Tetromino:
         ]
     }
 
-    _start_coordinates: dict[str, Coords] = {
-        "I": Coords(4.5, 0.5),
-        "J": Coords(4, 0),
-        "L": Coords(4, 0),
-        "O": Coords(4.5, 0.5),
-        "S": Coords(4, 0),
-        "T": Coords(4, 0),
-        "Z": Coords(4, 0)
+    _start_coordinates: dict[str, tuple[float, float] ] = {
+        "I": (4.5, 0.5),
+        "J": (4, 0),
+        "L": (4, 0),
+        "O": (4.5, 0.5),
+        "S": (4, 0),
+        "T": (4, 0),
+        "Z": (4, 0)
     }
 
     # Define SRS Kicks
@@ -177,12 +177,14 @@ class Tetromino:
 
     def __init__(self, tetrominoType=None):
         # Possible rotation values
-        # FORMAT: (Coords, Bool: flip x and y?)
-        self._rotation_values: cycle[ tuple[Coords, bool] ] = cycle([
-            ( Coords(1, 1), False),
-            ( Coords(-1, 1), True),
-            ( Coords(-1, -1), False),
-            ( Coords(1, -1), True)
+        # FORMAT: (int, int, Bool)
+            # integers represent x, y transformation (multiplication)
+            # boolean is true if x and y values will be flipped
+        self._rotation_values: cycle[ tuple[ int, int, bool ] ] = cycle([
+            (1, 1, False),
+            (-1, 1, True),
+            (-1, -1, False),
+            (1, -1, True)
         ])
         self._rotation = next(self._rotation_values)
 
@@ -196,15 +198,16 @@ class Tetromino:
             tetrominoType = random.choice(list(self._shapes.keys()))
         
         self.tetrominoType = tetrominoType
-        self.xy = self._start_coordinates[self.tetrominoType]
+        self.xy = Coords.t(self._start_coordinates[self.tetrominoType])
 
     def __repr__(self):
-        return f"<{self.tetrominoType} tetromino with blocks: {self.blocks}>"
+        return f"<{self.tetrominoType} tetromino @ {self.xy} with blocks: {self.blocks}"
     
     @property
     def blocks(self) -> list[Block]:
-        rotation, flip_state = self._rotation
-        blocks =  [Block(self.tetrominoType, self.xy + Coords.t(shift).flip(flip_state) * rotation)
+        dx, dy, flip_state = self._rotation
+        transformation = Coords(dx, dy)
+        blocks =  [Block(self.tetrominoType, self.xy + Coords.t(shift).flip(flip_state) * transformation)
                    for shift
                    in self._shapes[self.tetrominoType]]
         return blocks
@@ -320,7 +323,6 @@ class GameGrid:
         if isinstance(source, Block):
             self[source.xy] = source
         elif isinstance(source, Tetromino):
-            print(f'{ [repr(i) for i in source.blocks] }')
             for block in source.blocks:
                 self[block.xy] = block
         else:
@@ -328,7 +330,7 @@ class GameGrid:
         for y, yList in enumerate(self.board):
             if None not in yList:
                 self.drop(y)
-        # print(self)
+        print(self)
         self.validate()
     
     def draw(self, canvas: tk.Canvas, scale):
