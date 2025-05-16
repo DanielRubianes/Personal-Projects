@@ -362,7 +362,6 @@ class Game:
         self._scale = scale
         self._speed = 1000
         self._active_keys: list[str] = []
-        self._job = None
 
         self._window = window
 
@@ -383,22 +382,16 @@ class Game:
 
         self.loop()
 
-    def start_loop(self):
-        if self._job:
-            self._window.after_cancel(self._job)
-        self._job = self._window.after(self._speed, self.loop)
-
     def loop(self):
         grid = self._grid
-        grid.draw(self._canvas, self._scale)
         grid.activeTetromino.xy.y += 1
 
         if (grid.activeTetromino.bumpY(grid)):
             grid.activeTetromino.xy.y -= 1
             grid.place(grid.activeTetromino)
             grid.activeTetromino = Tetromino()
-        
-        self.start_loop()
+            
+        grid.draw(self._canvas, self._scale)
 
     def key_down(self, event: tk.Event):
         key = event.keysym
@@ -434,9 +427,7 @@ class Game:
         
         # Drop faster
         if key == "Down":
-            self._speed = 50
-            self.start_loop()
-            # self.loop()
+            self.loop()
     
     def key_up(self, event: tk.Event):
         key = event.keysym
@@ -447,6 +438,6 @@ class Game:
             return
 
         # Slow to normal speed
-        if key == "Down":
-            self._speed = 1000
-            self.start_loop()
+        # if key == "Down":
+        #     self._speed = 1000
+        #     self.start_loop()
