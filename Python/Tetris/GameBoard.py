@@ -1,5 +1,8 @@
-from tkinter import Tk
-from typing import Iterator, Any
+import tkinter as tk
+
+from typing import Optional
+
+from itertools import cycle
 import random
 
 EMPTY = object()
@@ -182,7 +185,7 @@ class Tetromino:
     def __init__(self, tetrominoType=None):
         # Possible rotation values
         # FORMAT: (Coords, Bool: flip x and y?)
-        self._rotation_values: LoopList[ tuple[Coords, bool] ] = LoopList([
+        self._rotation_values: cycle[ tuple[Coords, bool] ] = cycle([
             ( Coords(1, 1), False),
             ( Coords(-1, 1), True),
             ( Coords(-1, -1), False),
@@ -190,7 +193,7 @@ class Tetromino:
         ])
         self._rotation = next(self._rotation_values)
 
-        self._rotation_states = LoopList([
+        self._rotation_states = cycle([
             0, 1, 2, 3
         ])
         self._rotation_state = next(self._rotation_states)
