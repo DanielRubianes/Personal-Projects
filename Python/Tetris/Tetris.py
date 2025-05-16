@@ -1,8 +1,7 @@
 from GameBoard import *
-from tkinter import *
-import tkinter
+import tkinter as tk
 
-window: Tk = Tk()
+window: tk.Tk = tk.Tk()
 window.geometry()
 window.title("Python Tetris")
 

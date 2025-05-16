@@ -5,26 +5,6 @@ from typing import Optional
 from itertools import cycle
 import random
 
-EMPTY = object()
-class LoopList:
-    """Iterable list that will countinuously iterate, skiping to the first item after the last"""
-    _iter: Iterator[Any]
-    _list: list
-    
-    def __init__(self, list: list):
-        self._list = list
-        self._iter = iter(list)
-
-    def __iter__(self):
-        return self
-    
-    def __next__(self):
-        output = next(self._iter, EMPTY)
-        if output is EMPTY:
-            self._iter = iter(self._list)
-            return next(self._iter)
-        return output
-
 class Coords:
     x: int
     y: int
@@ -62,7 +42,7 @@ class Coords:
 
     # Allow declarations with tuples (x, y)
     @classmethod
-    def t(cls, xy: tuple[int, int]):
+    def t(cls, xy: tuple[float, float]):
         x, y = xy
         return cls(x, y)
 
@@ -254,16 +234,16 @@ class GameGrid:
     # List of X coordinates, containing lists of y coordinates
     # Origin is @ top left
     # 10 x 20 default
-    board: list[list[Block]] = EMPTY
+    board: list[ list[ Optional[Block] ] ] = []
     xSize: int
     ySize: int
 
-    activeTetromino: Tetromino = None
+    activeTetromino: Tetromino
 
     def __init__(self, xSize: int=10, ySize: int=20):
         self.xSize = xSize
         self.ySize = ySize
-        if self.board is EMPTY:
+        if not self.board:
             #self.board = [[None]*self.ySize for _ in range(self.xSize)]
             self.board = [[None]*self.xSize for _ in range(self.ySize)]
     
@@ -281,7 +261,7 @@ class GameGrid:
     def __getitem__(self, xy: Coords):
         x, y = xy
         return self.board[y][x]
-    def __setitem__(self, xy: Coords, newBlock):
+    def __setitem__(self, xy: Coords, newBlock: Block):
         x, y = xy
         if not self.board[y][x]:
             self.board[y][x] = newBlock
@@ -308,7 +288,7 @@ class GameGrid:
                     xItem.xy = Coords(x, y)
 
     # Clears the line @ the specified y value and drops every row above down to that value
-    def drop(self, yClear):
+    def drop(self, yClear: int):
         self.board[yClear] = [None]*self.xSize
         for y in range(yClear, 1, -1):
             self.board[y] = [None]*self.xSize
@@ -330,7 +310,7 @@ class GameGrid:
                 self.drop(y)
         print(self)
     
-    def draw(self, canvas: Canvas, scale):
+    def draw(self, canvas: tk.Canvas, scale):
         width = self.xSize * scale
         height = self.ySize * scale
 
@@ -353,18 +333,18 @@ class GameGrid:
         for coordinates in gridLines:
             canvas.create_line(coordinates, fill="black", width=2)
 
-        canvas.pack(expand = True, fill = BOTH)
+        canvas.pack(expand = True, fill = tk.BOTH)
 
 
 class Game:
     """Main class to handle Tkinter GUI"""
     _grid: GameGrid
-    _frame: Frame
-    _canvas: Canvas
+    _frame: tk.Frame
+    _canvas: tk.Canvas
     _scale: int
     speed: int
 
-    def __init__(self, window: Tk, scale: int=40):
+    def __init__(self, window: tk.Tk, scale: int=40):
         self._scale = scale
         self._speed = 1000
         self._active_keys: list[str] = []
@@ -372,7 +352,7 @@ class Game:
 
         self._window = window
 
-        frame = Frame(window)
+        frame = tk.Frame(window)
         frame.pack()
         self._frame = frame
 
@@ -385,7 +365,7 @@ class Game:
 
         width = grid.xSize * self._scale
         height = grid.ySize * self._scale
-        self._canvas = Canvas(frame,bg='white', width=width, height=height)
+        self._canvas = tk.Canvas(frame,bg='white', width=width, height=height)
 
         self.loop()
 
@@ -406,7 +386,7 @@ class Game:
         
         self.start_loop()
 
-    def key_down(self, event: Event):
+    def key_down(self, event: tk.Event):
         key = event.keysym
 
         if key in self._active_keys:
@@ -444,7 +424,7 @@ class Game:
             self.start_loop()
             # self.loop()
     
-    def key_up(self, event: Event):
+    def key_up(self, event: tk.Event):
         key = event.keysym
 
         if key in self._active_keys:
