@@ -27,6 +27,12 @@ class Coords:
         else:
             raise TypeError(f"Unsupported operand type {str(self)} * {str(other)}")
         
+    def __eq__(self, other) -> bool:
+        if (self.x == other.x and self.y == other.y):
+            return True
+        else:
+            return False
+
     def flip(self, boolean):
         if boolean:
             return Coords(self.y, self.x)
@@ -287,6 +293,13 @@ class GameGrid:
                 if xItem:
                     xItem.xy = Coords(x, y)
 
+    def validate(self):
+        for y, yList in enumerate(self.board):
+            for x, xItem in enumerate(yList):
+                if xItem:
+                    if (xItem.xy != Coords(x, y)):
+                        print(f'Block at board index {x}, {y} has coordinate value {xItem.xy}!')
+
     # Clears the line @ the specified y value and drops every row above down to that value
     def drop(self, yClear: int):
         self.board[yClear] = [None]*self.xSize
@@ -309,6 +322,7 @@ class GameGrid:
             if None not in yList:
                 self.drop(y)
         print(self)
+        self.validate()
     
     def draw(self, canvas: tk.Canvas, scale):
         width = self.xSize * scale
