@@ -1,10 +1,11 @@
-from tkinter import *
+from tkinter import Tk
+from typing import Iterator, Any
 import random
 
 EMPTY = object()
 class LoopList:
     """Iterable list that will countinuously iterate, skiping to the first item after the last"""
-    _iter: iter
+    _iter: Iterator[Any]
     _list: list
     
     def __init__(self, list: list):
@@ -22,8 +23,8 @@ class LoopList:
         return output
 
 class Coords:
-    x: int = None
-    y: int = None
+    x: int
+    y: int
 
     def __init__(self, x, y):
         self.x = x
@@ -63,8 +64,8 @@ class Coords:
         return cls(x, y)
 
 class Block:
-    blockType: str = None
-    xy: Coords = None
+    blockType: str
+    xy: Coords
 
     _colors = {
         "I": "#00FFFF",
@@ -91,9 +92,10 @@ class Block:
         return self._colors[self.blockType]
 
 class Tetromino:
-    tetrominoType: str = None
-    blocks: list[Block] = []
-    xy: Coords = None
+    tetrominoType: str
+    xy: Coords
+
+    _rotation: tuple[Coords, bool]
     
     # (X, Y) values relative to center for each block (O & I blocks have half step centers at the interesection of four blocks)
     _shapes: dict[ str, list[ tuple[float, float] ] ] = {
@@ -148,7 +150,7 @@ class Tetromino:
         ]
     }
 
-    _start_coordinates: dict[str, tuple] = {
+    _start_coordinates: dict[str, Coords] = {
         "I": Coords(4.5, 0.5),
         "J": Coords(4, 0),
         "L": Coords(4, 0),
@@ -180,7 +182,7 @@ class Tetromino:
     def __init__(self, tetrominoType=None):
         # Possible rotation values
         # FORMAT: (Coords, Bool: flip x and y?)
-        self._rotation_values = LoopList([
+        self._rotation_values: LoopList[ tuple[Coords, bool] ] = LoopList([
             ( Coords(1, 1), False),
             ( Coords(-1, 1), True),
             ( Coords(-1, -1), False),
@@ -204,7 +206,7 @@ class Tetromino:
         return f"<{self.tetrominoType} tetromino with blocks: {self.blocks}>"
     
     @property
-    def blocks(self):
+    def blocks(self) -> list[Block]:
         rotation, flip_state = self._rotation
         blocks =  [Block(self.tetrominoType, self.xy + Coords.t(shift).flip(flip_state) * rotation)
                    for shift
