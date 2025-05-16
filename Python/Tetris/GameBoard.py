@@ -1,3 +1,8 @@
+"""
+Block rotation and kicking information derived from this wiki:
+https://harddrop.com/wiki/SRS
+"""
+
 import tkinter as tk
 
 from typing import Optional
